@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tesuji Websites</title>
+  <meta name="description" content="A small index for Tesuji web tools and companion apps.">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f3ee;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #63717d;
+      --line: #d8ddd8;
+      --accent: #1e6f78;
+      --accent-2: #8b4f38;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    main {
+      width: min(960px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 56px 0;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    a.card {
+      display: flex;
+      min-height: 210px;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: inherit;
+      text-decoration: none;
+      transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    a.card:hover {
+      border-color: color-mix(in srgb, var(--accent), var(--line) 35%);
+      box-shadow: 0 18px 44px rgba(31, 41, 51, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: var(--accent-2);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+
+    .desc {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .open {
+      margin-top: 24px;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 32px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 28px, 560px);
+        padding: 34px 0;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      a.card {
+        min-height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Tesuji</p>
+      <h1>Companion tools and portfolio work</h1>
+      <p class="intro">A small collection of standalone web tools, published as normal browser links.</p>
+    </header>
+
+    <section class="grid" aria-label="Published tools">
+      <a class="card" href="pathfinder-companion.html">
+        <span>
+          <p class="kicker">Care navigation</p>
+          <h2>Pathfinder Companion</h2>
+          <p class="desc">Reference and routing support for care navigation workflows.</p>
+        </span>
+        <span class="open">Open Pathfinder</span>
+      </a>
+
+      <a class="card" href="tesuji-portfolio.html">
+        <span>
+          <p class="kicker">Portfolio</p>
+          <h2>Tesuji R&amp;D Lab</h2>
+          <p class="desc">Portfolio site for Tesuji projects, prototypes, and research-led builds.</p>
+        </span>
+        <span class="open">Open portfolio</span>
+      </a>
+
+      <a class="card" href="cairn-companion.html">
+        <span>
+          <p class="kicker">Companion app</p>
+          <h2>Cairn Companion</h2>
+          <p class="desc">Standalone Cairn companion tool, version 1.1.0.</p>
+        </span>
+        <span class="open">Open Cairn</span>
+      </a>
+    </section>
+
+    <footer>
+      <p>Hosted as static HTML files.</p>
+    </footer>
+  </main>
+</body>
+</html>
