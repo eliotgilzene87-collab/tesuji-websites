@@ -1842,6 +1842,13 @@ details.expandable[open] summary::before { content: "−"; }
         <svg class="ic-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 1.6 L12 4 M12 20 L12 22.4 M4.2 4.2 L5.9 5.9 M18.1 18.1 L19.8 19.8 M1.6 12 L4 12 M20 12 L22.4 12 M4.2 19.8 L5.9 18.1 M18.1 5.9 L19.8 4.2"/></svg>
         <svg class="ic-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13.2 A8.5 8.5 0 1 1 10.8 3.5 A6.7 6.7 0 0 0 20.5 13.2 Z"/></svg>
       </button>
+      <button class="help-button" id="helpButton" type="button" onclick="window.__onboarding && window.__onboarding.open()" aria-label="What is Pathfinder — help and orientation" title="What is Pathfinder?">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.1 9 A3 3 0 0 1 14.9 10 C14.9 12 12 12 12 14"/>
+          <line x1="12" y1="17.5" x2="12" y2="17.5"/>
+        </svg>
+      </button>
       <div class="topbar-meta">
         Care Navigation reference<br>
         <span class="ver">YAML v2.0</span> · <span>Library v0.1</span>
@@ -15214,30 +15221,179 @@ A patient on the duty list is not yet seen. The call-back is the assessment. The
       }
     },
 
-    /* ═══════════════════════ FCP (PLACEHOLDER) ═══════════════════════ */
+    /* ═══════════════════════ FCP ═══════════════════════ */
     fcp: {
       key: 'fcp',
       engine_route: 'fcp',
       name: 'First Contact Practitioner (MSK)',
-      tagline: 'George Buckland — MSK specialist at Denham. Patients with muscle, bone, or joint problems do not need to see a GP first.',
+      tagline: 'George Buckland — Denham\'s MSK specialist. Patients with muscle, bone or joint problems do not need to see a GP first.',
       tone: 'team',
       group: 'in_house',
-      tags: ['In-house', 'MSK specialist'],
-      blurb: 'Direct MSK route — no GP intermediary. Can request investigations and refer onward.',
-      status: 'placeholder',
+      tags: ['In-house', 'MSK specialist', 'Direct route'],
+      blurb: 'Direct MSK route — no GP intermediary. Can examine, request imaging, refer onward to specialists.',
+      status: 'complete',
       sections: [
         {
           kind: 'overview',
-          title: 'Placeholder',
-          content: `<p>Full route page coming in Phase 2.</p>
-<p>What goes here: scope of FCP role at Denham, who George Buckland is and what he can do (request MRI/ultrasound, refer onward to specialists), when MSK self-referral via StayWell BOB is the alternative, the cauda equina exclusion that always takes a back-pain call out of MSK, the navigator phrasing for offering an FCP slot instead of a GP slot.</p>`
+          title: 'What an FCP is — and why it matters',
+          content: `<p>A First Contact Practitioner (FCP) is a senior physiotherapist with additional training in clinical assessment, requesting investigations, and onward referral. <strong>George Buckland</strong> is the FCP at Denham. He sees patients directly — without a GP referral — for musculoskeletal problems: back pain, joint pain, soft tissue injuries, post-injury rehabilitation questions, and the steady stream of "I\'ve hurt my [body part]" calls that make up a significant share of primary care.</p>
+<p>The reason FCP routing matters: a substantial proportion of MSK calls in any practice get routed to GP appointments by default, often because the navigator isn\'t sure the FCP is the right call, or because the patient assumes "I need a doctor for this". Most of those calls are exactly George\'s territory. The GP can\'t do anything for a mechanical back strain that George can\'t do better — and the GP slot used for it is a slot taken from someone who needs the GP specifically.</p>
+<p>For Care Navigators, the simple framing: <strong>MSK presentations go to FCP, not GP, unless there\'s a red flag.</strong></p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'First Contact Practitioner (MSK)'],
+            ['Named person', 'George Buckland'],
+            ['Background', 'Senior physiotherapist with advanced clinical training'],
+            ['Can do', 'Examine, request imaging (X-ray, MRI, ultrasound), refer onward to orthopaedics or rheumatology'],
+            ['Cannot do', 'Prescribe most medications (limited within scope), manage non-MSK complaints'],
+            ['Sees', 'Adults primarily; children for clear MSK presentations'],
+            ['Patient framing', 'Specialist MSK clinician — not a step before the GP'],
+            ['Alternative parallel route', 'Adult MSK self-referral via StayWell BOB']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When FCP is the right route',
+          content: `<p>George is the right route for:</p>
+<ul>
+<li><strong>Back pain</strong> — mechanical, sciatica pattern, post-injury, persistent. Without red-flag features.</li>
+<li><strong>Joint pain</strong> — knees, shoulders, hips, elbows, ankles. Wear-and-tear, post-injury, persistent.</li>
+<li><strong>Soft tissue injuries</strong> — strains, sprains, tendinopathies. Acute or chronic.</li>
+<li><strong>Post-operative rehabilitation questions</strong> — patient unsure how to progress, pain not settling as expected.</li>
+<li><strong>"My [body part] hurts after gardening / sport / a fall"</strong> — the bread and butter of FCP work.</li>
+<li><strong>Frozen shoulder, plantar fasciitis, tennis elbow, similar named conditions</strong> — George manages these routinely.</li>
+<li><strong>"Should I get a scan?"</strong> — George can decide and request if needed, without a GP step.</li>
+</ul>
+<p>The simple test: <em>"Is this primarily about muscles, bones, joints or tendons, in a patient without red-flag features?"</em> Yes → FCP.</p>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          content: `<p>The patient framing is critical. "Physiotherapist" gets heard as "less than a doctor" by many patients. George\'s role is wider than physiotherapy — and the offer should reflect that.</p>`,
+          scripts: [
+            "I\'m going to book you in with George, our FCP — that\'s our specialist MSK clinician. He sees patients directly for this kind of thing without you needing a GP first. He can examine you, request a scan if you need one, and refer onward if it turns out to be something more.",
+            "George Buckland is exactly the right person for this. He\'s a senior MSK clinician — he can do everything the GP would do for muscle and joint problems, often better, because it\'s his specialism.",
+            "For what you\'re describing, you don\'t need a GP — you need George. He\'s our First Contact Practitioner. It\'s the right route for back/knee/shoulder problems, and he can sort it from start to finish."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          content: `<p>The "but I want a doctor" instinct is strong for MSK. Handle the pushback well.</p>`,
+          variants: [
+            {
+              situation: 'Patient says "I want a doctor, not a physio"',
+              scripts: [
+                "I hear that — and I want to be straight with you. George isn\'t just a physio. He\'s a First Contact Practitioner — he can examine, order scans, prescribe within his scope, and refer to orthopaedics if he\'s worried. For what you\'ve described, he\'s the right clinician — actually more specialist than the GP for this.",
+                "Of course I can book a GP if you\'d prefer. The honest position is: the GP would most likely refer you to George anyway. Starting with George skips that step. But if you\'d feel more comfortable with the GP first, that\'s fine."
+              ]
+            },
+            {
+              situation: 'Patient assumes they need a scan',
+              scripts: [
+                "George is the right person to decide that — he can examine you and arrange a scan if you need one. Going via the GP doesn\'t make a scan happen faster.",
+                "He\'ll work out whether a scan is the right thing. He has direct access to imaging if it is."
+              ]
+            },
+            {
+              situation: 'Patient with chronic pain — "I\'ve seen physios before, they didn\'t help"',
+              scripts: [
+                "I get that. George\'s role is a bit different from a clinic physio — he\'s the front-end MSK clinician, not just exercise advice. He might come at it differently, including looking at whether anything diagnostic is needed.",
+                "Worth a fresh assessment. If George thinks something else is needed — pain clinic referral, specialist review — he can arrange it without you going through the GP first."
+              ]
+            },
+            {
+              situation: 'Patient with an obvious specific concern — "I think I\'ve torn something"',
+              scripts: [
+                "George can assess for that — examine, decide on imaging, refer to orthopaedics if needed. He\'s the right route.",
+                "If it is a tear, the pathway runs through him anyway. Let\'s start there."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'after_referral',
+          title: 'After the referral — what happens',
+          content: `<p>George\'s appointments look like a longer clinical consultation:</p>
+<ol style="margin:0; padding-left:20px;">
+<li><strong>Booking</strong> — slots tend to be slightly longer than GP slots because MSK assessment includes examination time.</li>
+<li><strong>Assessment</strong> — history, physical examination, sometimes specific tests.</li>
+<li><strong>Investigation</strong> — if imaging is needed, George requests it directly. No GP intermediary.</li>
+<li><strong>Management plan</strong> — exercises, advice, sometimes a prescription within his scope, sometimes a referral.</li>
+<li><strong>One of four outcomes:</strong></li>
+</ol>`,
+          outcomes: [
+            { label: 'Self-management plan', tone: 'advice', text: 'Most common. Exercises, activity modification, expected recovery time, when to come back if not settling.' },
+            { label: 'Investigation pending', tone: 'note', text: 'X-ray, MRI, or ultrasound requested directly. Results reviewed by George, with a follow-up plan.' },
+            { label: 'Referral to secondary care', tone: 'note', text: 'Orthopaedics, rheumatology, pain clinic. George refers directly without a GP step.' },
+            { label: 'Refer to GP', tone: 'duty', text: 'If something non-MSK emerges during assessment, or a prescription is needed outside his scope, George refers to the GP. This happens occasionally but is not the norm.' }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common FCP misroutes',
+          content: `<p>The misroutes here are usually about defaulting to GP for MSK presentations that should have gone to George.</p>`,
+          items: [
+            { title: '1. Back pain routed to GP by default', body: 'Probably the most common MSK misroute in any practice. Unless there are red-flag features (cauda equina, severe weight loss with back pain, fever with back pain, immunocompromised), back pain goes to FCP, not GP.' },
+            { title: '2. "Should I get a scan?" routed to GP', body: 'The patient thinks they need to see a doctor to "authorise" a scan. They don\'t. George can decide and request directly. Routing this to GP wastes the patient\'s time.' },
+            { title: '3. Cauda equina symptoms routed to FCP', body: 'The critical exclusion. Saddle numbness, bladder/bowel change, bilateral leg weakness — this is 999, surgical emergency. Not FCP. The hard-stop logic in the walker should catch this; the navigator must too.' },
+            { title: '4. Hot swollen joint with fever routed to FCP', body: 'Possible septic arthritis. Goes to duty GP, not FCP. The "fever" feature changes the route.' },
+            { title: '5. MSK pain with weight loss / systemic features routed to FCP', body: 'Suggests something other than mechanical. Duty or routine GP, depending on acuity.' },
+            { title: '6. Self-referral MSK route confused with FCP', body: 'Adults can also self-refer to community MSK via StayWell BOB. The choice between FCP and self-referral depends on the case — George is faster for diagnostic uncertainty; self-referral is appropriate for clear MSK rehab needs.' },
+            { title: '7. "Physio" framing causing patient pushback', body: 'Saying "I\'ll book you a physio appointment" loses the clinical authority of George\'s role. Use "FCP" or "MSK clinician" — names that signal specialist status.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When FCP is NOT the right route',
+          content: `<p>George is excellent for MSK, but not the right route when:</p>
+<ul>
+<li><strong>Cauda equina features</strong> — saddle numbness, bladder/bowel change, bilateral leg weakness. 999, surgical emergency.</li>
+<li><strong>Hot swollen joint with fever</strong> — possible septic arthritis. Duty GP.</li>
+<li><strong>MSK pain with weight loss, fever, or other systemic features</strong> — suggests non-mechanical cause. GP.</li>
+<li><strong>Recent trauma with significant injury</strong> — fracture suspected, severe pain, deformity. A&E or 999 depending on severity.</li>
+<li><strong>Post-fall in elderly with possible hip fracture</strong> — 999 or A&E. Not FCP.</li>
+<li><strong>Headache, abdominal pain, chest pain</strong> — these are not MSK presentations. Other routes.</li>
+<li><strong>Established chronic pain on complex medication</strong> — pain clinic involvement may be needed. GP can coordinate.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>The safety-net for FCP referrals is straightforward:</p>
+<ul>
+<li><strong>If symptoms worsen significantly before the appointment</strong> — ring back. The route may need to change.</li>
+<li><strong>If new red-flag features emerge</strong> — cauda equina symptoms, fever, severe weight loss — 999 or duty GP, don\'t wait for George.</li>
+<li><strong>If the patient doesn\'t hear from us by the expected time</strong> — ring back.</li>
+<li><strong>If George decides during assessment that something else is needed</strong> — he\'ll arrange it. The patient doesn\'t need to come back to us first.</li>
+</ul>`
+        },
+        {
+          kind: 'audit_governance',
+          title: 'Audit & governance',
+          content: `<p>FCP routing is one of the more measurable bits of navigation — practices track MSK routing patterns closely.</p>`,
+          items: [
+            { label: 'In EMIS', text: 'FCP appointments are coded distinctly from GP appointments. George\'s notes follow the same standards as any clinical record.' },
+            { label: 'Capacity tracking', text: 'The practice tracks what proportion of MSK work goes via FCP vs GP. Higher FCP routing for appropriate cases is good navigation.' },
+            { label: 'Imaging request governance', text: 'George\'s direct access to imaging is a defined scope — within agreed protocols. If a navigator is unsure whether a scan request is within scope, ask.' },
+            { label: 'Patient acceptance feedback', text: 'If patients regularly refuse FCP for things George should handle, that\'s a flag — the framing or the patient education may need work.' },
+            { label: 'Pathfinder rule-set feedback', text: 'If an MSK case routes to GP in Pathfinder when FCP would have been right, flag for Emma. The rule weighting can be tuned.' }
+          ]
         }
       ],
       see_also: [
-        { route: 'msk_selfref', reason: 'Parallel route — adult MSK self-referral via StayWell BOB.' },
-        { route: '999', reason: 'Cauda equina features take a back-pain call out of MSK and to 999.' }
+        { route: 'msk_selfref', reason: 'Parallel route — adult MSK self-referral via StayWell BOB. Different choice for different cases.' },
+        { route: '999', reason: 'Cauda equina features take a back-pain call out of MSK and to 999, immediately.' },
+        { route: 'gp_appointments', reason: 'For MSK with red-flag systemic features (fever, weight loss) — duty or urgent GP, not FCP.' }
       ],
-      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge', notes: 'Phase 2 expansion required.' }
+      governance: {
+        last_reviewed: '2026-05',
+        maintainer: 'Emma Woodbridge (Practice Manager)',
+        notes: 'Verify George\'s exact imaging access and prescribing scope annually. The "physio" framing trap is worth specifically training new navigators on.'
+      }
     },
 
     /* ═══════════════════════ SOCIAL PRESCRIBER ═══════════════════════ */
@@ -15435,9 +15591,9 @@ A patient on the duty list is not yet seen. The call-back is the assessment. The
         {
           kind: 'overview',
           title: 'What an ANP is — and why it matters',
-          content: `<p>An Advanced Nurse Practitioner is a registered nurse with additional postgraduate training in clinical assessment, diagnosis, and (importantly) prescribing. Within their scope, they do the same work a GP would do: history, examination, request investigations, prescribe, refer onward, safety-net.</p>
-<p>For Care Navigators, the important point is: <strong>ANP is not a lesser route than GP for acute illness</strong>. Routing to Lani is not "downgrading" — it\'s using the right clinician. The system designs the ANP role specifically so that the GPs can be freed up for the complex, the chronic, the undifferentiated. The acute illness work — sore throat that\'s outside Pharmacy First, adult earache, urinary symptoms that don\'t fit the UTI service, chest infection, skin infection beyond pharmacy scope — these are the ANP\'s natural territory.</p>
-<p>Lani also frequently has same-day capacity when the duty GP rota is full. For appropriate cases this means the patient is seen today, by a clinician who can sort it out, rather than waiting for tomorrow.</p>`
+          content: `<p>An Advanced Nurse Practitioner is a registered nurse with postgraduate training in clinical assessment, diagnosis, and prescribing. Within their scope, they do the same work a GP would: history, examination, investigations, prescribing, referral, safety-netting.</p>
+<p>The important point for Care Navigators: <strong>ANP is not a lesser route than GP for acute illness</strong>. Routing to Lani is not "downgrading" — it\'s using the right clinician. The role exists so GPs can focus on the complex, chronic, and undifferentiated. Acute illness — sore throat outside Pharmacy First, adult earache, atypical urinary symptoms, chest and skin infections beyond pharmacy scope — is the ANP\'s natural territory.</p>
+<p>Lani also frequently has same-day capacity when the duty GP rota is full. For appropriate cases that means the patient is seen today, by a clinician who can sort it out, rather than waiting until tomorrow.</p>`
         },
         {
           kind: 'fact_grid',
@@ -15954,6 +16110,1458 @@ Suicide attempt in progress. Patient has taken an overdose or self-harmed in a w
         maintainer: 'Emma Woodbridge (Practice Manager)',
         notes: 'Verify crisis line coverage annually. Review scripts with the Talking Therapies team where possible.'
       }
+    },
+
+    /* ═══════════════════════ TALKING THERAPIES ═══════════════════════ */
+    talking_ther: {
+      key: 'talking_ther',
+      engine_route: 'talking_ther',
+      name: 'NHS Bucks Talking Therapies',
+      tagline: 'NHS-funded talking therapy for adults with anxiety, depression, stress, panic, trauma, OCD, phobias. Self-referral — faster than waiting for a GP.',
+      tone: 'service',
+      group: 'external',
+      tags: ['External', 'Self-referral', 'Mental health'],
+      blurb: 'For non-crisis adult mental health. Self-referral by phone or text — patient doesn\'t need to go through us.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is — and the framing that matters',
+          content: `<p>NHS Bucks Talking Therapies (formerly Healthy Minds) is the local NHS Improving Access to Psychological Therapies (IAPT) service. It provides free, evidence-based talking therapy — CBT, counselling, guided self-help, group work — for adults with non-crisis mental health needs.</p>
+<p>The single most important fact for Care Navigators: <strong>patients can self-refer directly</strong>. They don\'t need a GP appointment first. Routing a patient to Talking Therapies is usually faster than booking them a GP slot, and the GP slot wouldn\'t add much value for non-crisis anxiety or depression — the patient ends up self-referring anyway, just later.</p>
+<p>That said, the framing matters. Telling someone "you should just self-refer" can land as dismissive — particularly if they\'ve worked up the courage to ring us. The phrasing has to convey: <em>this is the right specialist service for you, and it\'s designed to be accessed this way</em>.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Service', 'NHS Bucks Talking Therapies (formerly Healthy Minds)'],
+            ['Phone', '01865 901 600'],
+            ['Text', 'Text TALK to 07798 667 169'],
+            ['Online', 'Self-referral form available on the NHS Bucks Talking Therapies website'],
+            ['For', 'Adults 18+, registered with a Buckinghamshire GP'],
+            ['Treats', 'Anxiety, depression, panic, OCD, phobias, PTSD, stress, low self-esteem, sleep problems'],
+            ['Does not treat', 'Severe mental illness needing secondary care, active crisis, substance dependence as primary issue'],
+            ['Wait time', 'Variable — typically weeks rather than months for initial assessment'],
+            ['Format', 'Phone, video, in-person, group work, guided self-help — patient choice'],
+            ['Cost', 'Free']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When Talking Therapies is the right route',
+          content: `<p>Talking Therapies is the right route for:</p>
+<ul>
+<li><strong>Adult anxiety</strong> — generalised, panic, social anxiety, health anxiety. Affecting daily life but the patient is functioning.</li>
+<li><strong>Adult depression</strong> — low mood, loss of interest, hopelessness. Not at crisis level.</li>
+<li><strong>Stress-related presentations</strong> — work stress, relationship stress, life event impact.</li>
+<li><strong>OCD, phobias, PTSD</strong> — all within service scope.</li>
+<li><strong>Sleep problems with psychological component</strong>.</li>
+<li><strong>Low self-esteem, body image, eating-related distress</strong> that doesn\'t meet eating disorder service threshold.</li>
+<li><strong>Patient who has tried medication and wants psychological work alongside or instead</strong>.</li>
+</ul>
+<p>The simple test: <em>"Is this non-crisis adult mental health, and would talking therapy plausibly help?"</em> Yes → Talking Therapies.</p>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          content: `<p>This is a service where the patient self-refers. The navigator\'s job is to make sure they know how, why it\'s the right route, and what to expect.</p>`,
+          scripts: [
+            "For what you\'re describing, the best route is NHS Bucks Talking Therapies — they\'re the local NHS service for exactly this. You can refer yourself directly. The number is 01865 901 600, or you can text TALK to 07798 667 169.",
+            "I want to point you to NHS Bucks Talking Therapies — they do CBT, counselling, all NHS, all free. They\'re set up so you can refer yourself without going through us first. Means you start the conversation faster.",
+            "There\'s a service called NHS Bucks Talking Therapies — used to be called Healthy Minds. They\'re for exactly this kind of thing. Self-referral, so you can do it today. 01865 901 600 — they\'ll talk you through what they offer."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          content: `<p>This is the route where phrasing failures show up most. "Just self-refer" lands badly. Use these instead.</p>`,
+          variants: [
+            {
+              situation: 'Patient who specifically wanted a GP appointment',
+              scripts: [
+                "Of course I can book a GP appointment — and if you\'d find that helpful, please say. The reason I\'m mentioning Talking Therapies is that they\'re the specialist service for this, and the GP would almost certainly recommend you contact them anyway. Going direct skips the intermediate step.",
+                "If you want to start with the GP, that\'s fine. Often what helps is doing both — the GP can talk about whether medication might support things, and Talking Therapies handles the therapy side. They aren\'t mutually exclusive."
+              ]
+            },
+            {
+              situation: 'Patient nervous about self-referring',
+              scripts: [
+                "I get that — making the call yourself feels different. They\'re very used to that. They\'ll explain everything, and you don\'t have to commit to anything in the first conversation. You can also text — TALK to 07798 667 169 — if a phone call feels too much.",
+                "Would it help if I sent you a written reminder of the numbers? Sometimes having it written down makes the call easier when you\'re ready. There\'s no time limit on calling — but the sooner you get on their list, the sooner you\'re seen."
+              ]
+            },
+            {
+              situation: 'Patient frustrated by waitlists',
+              scripts: [
+                "I hear that. The wait isn\'t always short, and it\'s real. A couple of things — first, getting onto their list now starts the clock, even if assessment is weeks away. Second, while you\'re waiting, we can book you a routine GP appointment if you want support in the meantime.",
+                "I\'ll be honest — the wait can be frustrating. But Talking Therapies are still the right people for the actual therapy. The GP can\'t do that in 10 minutes. Worth getting registered now and using the GP for support alongside if you need it."
+              ]
+            },
+            {
+              situation: 'Patient with active suicidal thoughts',
+              scripts: [
+                "Thank you for telling me. Talking Therapies isn\'t the right route for this — they\'re for non-crisis support. What you\'ve described needs more immediate attention. Can I either put you through to the duty doctor today, or — if you\'d prefer — give you the mental health crisis line, 111 option 2?",
+                "I\'m not going to send you to a waiting list with what you\'ve just described. I want to make sure you\'re properly supported right now."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'after_referral',
+          title: 'After the referral — what happens',
+          content: `<p>Once the patient self-refers (by phone, text, or online), the typical pathway:</p>
+<ol style="margin:0; padding-left:20px;">
+<li><strong>Initial contact</strong> — Talking Therapies acknowledges the referral, often within a few working days.</li>
+<li><strong>Assessment call</strong> — telephone or video assessment, usually 45–60 minutes. Mental health professional asks about symptoms, history, what the patient is hoping for.</li>
+<li><strong>Match to intervention</strong> — based on the assessment, the patient is offered the right level of support.</li>
+<li><strong>Treatment begins</strong> — phone, video, or in-person depending on what was agreed.</li>
+</ol>`,
+          outcomes: [
+            { label: 'Guided self-help', tone: 'advice', text: 'For lower-severity presentations or as a first step. Patient works through structured materials with light professional support. Often works well; sometimes is enough.' },
+            { label: 'Individual CBT or counselling', tone: 'advice', text: 'Standard NHS talking therapy — typically 6–20 sessions. Evidence-based, structured.' },
+            { label: 'Group work', tone: 'note', text: 'Specific group programmes for particular issues — depression, anxiety, perinatal mental health, long-term condition adjustment.' },
+            { label: 'Referred onward', tone: 'duty', text: 'Where presentation is more severe or doesn\'t fit the service, referred to secondary care mental health services or back to the GP.' }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common Talking Therapies misroutes',
+          content: `<p>The mistakes here are usually about not offering it when it should be offered, or offering it when something else was needed.</p>`,
+          items: [
+            { title: '1. Adult non-crisis MH routed to GP by default', body: 'The most common misroute. The GP can\'t deliver CBT in a 10-minute slot. Talking Therapies is the right route. Offer the GP alongside if the patient wants medication support.' },
+            { title: '2. Active suicidal thoughts routed to Talking Therapies', body: 'Talking Therapies has a waitlist and is not designed for crisis. Active thoughts of self-harm need same-day duty GP or the crisis line (111 option 2). Re-route immediately if this emerges.' },
+            { title: '3. Under-18 routed to Talking Therapies', body: 'Bucks Talking Therapies is adults 18+. Under-18s need CAMHS SPA. Different service, different access route.' },
+            { title: '4. Severe mental illness routed to Talking Therapies', body: 'Psychosis, severe bipolar, severe eating disorder — these need secondary care mental health services, not IAPT. The GP or duty clinician should coordinate.' },
+            { title: '5. "Just self-refer" delivered dismissively', body: 'The framing makes the difference. "You should self-refer" can sound like "we\'re not helping you". The right framing is "this is the specialist service for you, and it\'s designed to be accessed directly".' },
+            { title: '6. Bereavement routed to Talking Therapies', body: 'Talking Therapies can help with bereavement-related anxiety or depression, but the first port of call for grief is often Cruse Bereavement Support, or Social Prescribing (Hanna) — depending on what the patient needs.' },
+            { title: '7. Active substance dependence as primary issue', body: 'Talking Therapies treats anxiety and depression that may co-exist with substance use, but it\'s not the primary service for addiction. Different referral routes exist for that.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When Talking Therapies is NOT the right route',
+          content: `<p>Talking Therapies is for non-crisis adult mental health. It\'s not the right route when:</p>
+<ul>
+<li><strong>Active mental health crisis</strong> — use 111 option 2 (MH crisis line) or 999.</li>
+<li><strong>Active thoughts of self-harm or suicide</strong> — duty GP or crisis line, not a waitlist service.</li>
+<li><strong>Under-18</strong> — use CAMHS SPA.</li>
+<li><strong>Severe mental illness</strong> — secondary care services.</li>
+<li><strong>Loneliness, bereavement, low-grade unhappiness</strong> without clinical depression — Social Prescriber may be a better fit.</li>
+<li><strong>Patient already under secondary mental health care</strong> — coordinate with their existing team, don\'t add a parallel referral.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>Self-referral routes need the navigator to make sure the patient actually follows through:</p>
+<ul>
+<li><strong>Write the numbers down</strong> — or send them in a text. Don\'t rely on the patient remembering from a phone call when they\'re distressed.</li>
+<li><strong>If anything changes</strong> — particularly if mood worsens or thoughts of self-harm appear — they should ring us back, not wait for Talking Therapies.</li>
+<li><strong>While they\'re waiting</strong> for Talking Therapies, the GP is available for support. Make this explicit.</li>
+<li><strong>If they don\'t hear back from Talking Therapies within a couple of weeks of self-referring</strong> — ring back. The referral may need re-sending or the patient may need different routing.</li>
+</ul>`
+        },
+        {
+          kind: 'audit_governance',
+          title: 'Audit & governance',
+          content: `<p>Talking Therapies is an NHS-commissioned service. The practice\'s referral patterns are visible at PCN and ICB level.</p>`,
+          items: [
+            { label: 'In EMIS', text: 'Signposting to Talking Therapies should be coded — distinguishes a genuine routing from a vague "advised to seek help".' },
+            { label: 'Self-referral tracking', text: 'The service tracks self-referrals back to referring practices indirectly. Good signposting practice shows up in the data.' },
+            { label: 'Waiting times', text: 'The service publishes waiting time data. If waits become very long in any given period, the practice may need to support patients differently during the wait.' },
+            { label: 'Service name changes', text: 'The service has been renamed in recent years (from Healthy Minds to NHS Bucks Talking Therapies). Patients sometimes know it by the old name. Use either as appropriate.' },
+            { label: 'Pathfinder rule-set feedback', text: 'If a patient pattern keeps producing GP routings when Talking Therapies would have been the right call, flag for Emma.' }
+          ]
+        }
+      ],
+      see_also: [
+        { route: 'mh_crisis', reason: 'For active crisis — 111 option 2 is the right route, not Talking Therapies.' },
+        { route: 'camhs_spa', reason: 'For under-18 mental health — CAMHS SPA, who never turn a young person away.' },
+        { route: 'gp_appointments', reason: 'For medication support alongside Talking Therapies, or for severe mental illness requiring GP coordination.' },
+        { route: 'social_pres', reason: 'For loneliness, bereavement, low-grade unhappiness without clinical depression — Social Prescribing is often the better fit.' }
+      ],
+      governance: {
+        last_reviewed: '2026-05',
+        maintainer: 'Emma Woodbridge (Practice Manager)',
+        notes: 'Verify contact numbers and waitlist guidance annually. Update if the service is renamed again.'
+      }
+    },
+
+    /* ═══════════════════════ CAMHS SPA ═══════════════════════ */
+    camhs_spa: {
+      key: 'camhs_spa',
+      engine_route: 'camhs_spa',
+      name: 'CAMHS SPA — children & young people\'s mental health',
+      tagline: 'The single point of access for under-18s\' mental health in Buckinghamshire. They never turn a young person away.',
+      tone: 'service',
+      group: 'external',
+      tags: ['External', 'Under-18s', 'Single point of access'],
+      blurb: 'For any mental health concern in a child or young person. Self-referral by family, school, or practice. They triage.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is — and the founding principle',
+          content: `<p>CAMHS SPA — Children and Adolescent Mental Health Services, Single Point of Access — is the front door to mental health support for everyone under 18 in Buckinghamshire. It operates on a principle that matters a lot for Care Navigators to understand: <strong>CAMHS SPA never turns a young person away</strong>. Every referral is acknowledged and triaged. Some go straight into CAMHS proper. Some get redirected to school-based support, voluntary services, or other community resources. Some get advice back to the practice for management. But nothing gets refused without a route forward.</p>
+<p>That principle changes how the Care Navigator should think about this route. The barrier isn\'t "does this meet CAMHS threshold" — that\'s their decision, not ours. The navigator\'s job is to make the right people aware that a young person is struggling, and let the specialist service decide what kind of support fits.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Service', 'CAMHS Single Point of Access (Bucks)'],
+            ['Base', 'Sue Nicholls Centre, Aylesbury HP20 1EG'],
+            ['For', 'Children and young people up to 18, registered with a Bucks GP'],
+            ['Referral by', 'Family, young person, school, practice, voluntary services'],
+            ['Principle', 'Never turn a young person away — always triage and respond'],
+            ['Outcome', 'CAMHS treatment, redirection to appropriate service, advice back to practice'],
+            ['For under-18 crisis', '999 if imminent danger; otherwise 111 option 2; Childline 0800 1111; Papyrus HOPELINE247 0800 068 4141'],
+            ['Cost', 'Free (NHS)']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When CAMHS SPA is the right route',
+          content: `<p>CAMHS SPA is the right route for:</p>
+<ul>
+<li><strong>Any under-18 mental health concern</strong> — anxiety, depression, self-harm thoughts or behaviour, eating concerns, OCD, behavioural problems, family-related distress.</li>
+<li><strong>Self-harm behaviour</strong> in a young person — non-imminent. (If imminent or active, 999.)</li>
+<li><strong>Family or carer concern about a child\'s mental health</strong> — parent ringing about their child.</li>
+<li><strong>School-flagged concerns</strong> — school nurse or pastoral team has raised something with the family.</li>
+<li><strong>Young person at the edge of adult services</strong> — 17-year-old where transition planning is starting. CAMHS can advise.</li>
+<li><strong>"I don\'t know if they\'re bad enough"</strong> — refer anyway. CAMHS will triage.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient / family',
+          content: `<p>CAMHS calls almost always come from a worried parent. The phrasing needs to reassure, signal that this is the right place, and signal that there\'s no threshold to meet.</p>`,
+          scripts: [
+            "I\'m glad you\'ve rung. The right service for what you\'re describing is CAMHS — Children and Adolescent Mental Health Services. They have a Single Point of Access — that means one place handles all referrals and they decide together what kind of support fits. They don\'t turn anyone away.",
+            "CAMHS will look at this and work out the best support. It might be CAMHS treatment directly, it might be a different service — but they always come back with a route forward. The most important thing is making the referral.",
+            "We can send the referral from here, or you can refer directly through the CAMHS SPA website. Either works. They\'ll get in touch within a few weeks usually."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          content: `<p>Parents ringing about their child often arrive guilty, frightened, or both. The phrasing should make space for that.</p>`,
+          variants: [
+            {
+              situation: 'Parent says "I don\'t know if it\'s bad enough"',
+              scripts: [
+                "That\'s exactly what CAMHS SPA is for. They decide what level of support is right — not you. Make the referral, let them do their job. It\'s not your call whether this meets threshold.",
+                "The threshold question is theirs to answer, not ours. The fact you\'re ringing tells me it\'s worth them looking at."
+              ]
+            },
+            {
+              situation: 'Parent worried about "labelling" their child',
+              scripts: [
+                "I hear that. CAMHS isn\'t about labelling — they assess and offer support. Some young people get a few sessions and that\'s it. Others get longer support. Nothing is on a permanent record in the way you might be worrying about.",
+                "It\'s not a label. It\'s a conversation with people who do this every day. They\'ll help work out what would help."
+              ]
+            },
+            {
+              situation: 'Young person on the line (not a parent)',
+              scripts: [
+                "Thank you for ringing yourself — that takes courage. CAMHS is the right service. They\'ll talk to you, not just your parents. Would you like me to make the referral, or do you want to do it yourself? Both work.",
+                "You can also use Childline — they\'re anytime, 0800 1111, and they\'re free. Papyrus HOPELINE247 is for people up to 35 if you\'re feeling really low — 0800 068 4141. Either of those alongside CAMHS is fine."
+              ]
+            },
+            {
+              situation: 'School has flagged but family isn\'t engaged',
+              scripts: [
+                "It might be useful for the practice to make a referral alongside the school. Different referral routes can each be helpful. Would it be alright if our GP also reviewed what\'s been raised?",
+                "Sometimes a school referral and a practice referral together signal that this is serious. I can ask the duty GP to look at this."
+              ]
+            },
+            {
+              situation: 'Imminent crisis in a young person',
+              scripts: [
+                "This sounds urgent. CAMHS SPA is for the longer-term support. Right now, the right thing is 999 if there\'s immediate danger, or 111 option 2 — the mental health crisis line — if not. Are they with you?",
+                "Stay on the line. I\'m going to make sure you have the right numbers and someone gets to you. CAMHS will pick up the follow-up, but right now we need the crisis route."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'after_referral',
+          title: 'After the referral — what happens',
+          content: `<p>Once a referral reaches CAMHS SPA:</p>
+<ol style="margin:0; padding-left:20px;">
+<li><strong>Acknowledgement</strong> — usually within a few working days.</li>
+<li><strong>Triage</strong> — a clinician reviews the referral.</li>
+<li><strong>One of four routes</strong> — see below.</li>
+<li><strong>Communication back</strong> to the referrer (and family) about the route chosen.</li>
+</ol>`,
+          outcomes: [
+            { label: 'CAMHS treatment directly', tone: 'duty', text: 'For higher-acuity presentations — sustained self-harm, severe anxiety/depression affecting functioning, eating concerns, OCD, complex presentations. CAMHS allocates a clinician and begins assessment/treatment.' },
+            { label: 'Redirection to lower-tier services', tone: 'note', text: 'For lower-severity, CAMHS may redirect to school-based counselling, voluntary sector (e.g. Young Minds, Kooth online), or community mental health programmes. These are still good outcomes — they\'re the right level of support.' },
+            { label: 'Advice back to the practice', tone: 'advice', text: 'CAMHS may advise the practice on management without taking the patient onto their caseload — particularly where the GP can support with a watchful waiting plan.' },
+            { label: 'Same-day crisis pathway', tone: 'duty', text: 'For urgent presentations identified during triage, CAMHS can fast-track to their crisis team.' }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common CAMHS misroutes',
+          content: `<p>The mistakes here are usually about not referring when in doubt — leaving young people without support because the navigator wasn\'t sure they "qualified".</p>`,
+          items: [
+            { title: '1. Not referring because "they might not meet threshold"', body: 'The single most common misroute. CAMHS SPA decides threshold, not us. If a young person is struggling enough that the family\'s ringing, refer.' },
+            { title: '2. Routing under-18 to Talking Therapies', body: 'Talking Therapies is adults 18+. Under-18s go to CAMHS — different service entirely.' },
+            { title: '3. Treating self-harm in a young person as routine', body: 'Self-harm in a young person always needs proper triage. CAMHS for the longer-term work; same-day duty GP or 999 for the acute risk. Don\'t book a routine GP appointment in 3 weeks for active self-harm.' },
+            { title: '4. Routing imminent crisis to CAMHS SPA', body: 'CAMHS SPA is the front door to mental health services — it\'s not a crisis hotline. For imminent risk, 999 or 111 option 2. CAMHS follows on afterwards.' },
+            { title: '5. Not giving the young person their own resources', body: 'Childline (0800 1111), Papyrus HOPELINE247 (0800 068 4141, under-35s), Kooth (online), Young Minds. If the young person is on the phone — not just the parent — they need direct resources too.' },
+            { title: '6. Assuming the family will refer themselves', body: 'Sometimes they do. Sometimes the moment passes. Offering to make the referral from the practice is usually the right call — keeps momentum.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When CAMHS SPA is NOT the right route',
+          content: `<p>CAMHS SPA is for under-18 mental health. Not the right route when:</p>
+<ul>
+<li><strong>Imminent crisis</strong> — 999 or 111 option 2.</li>
+<li><strong>18+</strong> — Talking Therapies, GP, or crisis line as appropriate.</li>
+<li><strong>Physical health concern primarily</strong> — even if it co-exists with mental health, the physical bit may need a different route.</li>
+<li><strong>Suspected eating disorder needing specialist eating disorder service</strong> — CAMHS can route, but specialist EDS may be the actual destination.</li>
+<li><strong>Safeguarding concern</strong> — safeguarding lead, in parallel with CAMHS.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>CAMHS referrals are not instantaneous. The safety-net should reflect that:</p>
+<ul>
+<li><strong>CAMHS will be in touch within a few working days</strong>. If the family hasn\'t heard within a week, ring us back.</li>
+<li><strong>If anything changes — especially worsening or self-harm</strong> — ring us back or use 999 / 111 option 2 as appropriate.</li>
+<li><strong>While waiting for CAMHS</strong>, family resources include Childline (0800 1111), Young Minds Parents Helpline (0808 802 5544), Kooth (online).</li>
+<li><strong>If the young person doesn\'t want to engage</strong>, that\'s real and worth respecting. The referral can still be made — CAMHS will work with what\'s possible.</li>
+</ul>`
+        },
+        {
+          kind: 'audit_governance',
+          title: 'Audit & governance',
+          content: `<p>CAMHS referrals from the practice are tracked, and the practice\'s patterns are visible.</p>`,
+          items: [
+            { label: 'In EMIS', text: 'CAMHS referrals coded against the patient record. Include the date and the referral route used (practice referral vs signposted to self-referral).' },
+            { label: 'Safeguarding interface', text: 'Any CAMHS referral involving safeguarding concerns should also be discussed with the practice safeguarding lead. The two routes work in parallel, not as substitutes.' },
+            { label: 'Family communication', text: 'CAMHS will communicate with the family directly. The practice should know what\'s happened so the GP can support during waits and after discharge.' },
+            { label: 'Threshold mismatches', text: 'If the practice keeps receiving "redirected to lower-tier services" responses for the same kinds of presentation, worth reviewing whether referrals are happening at the right level — but err on the side of referring rather than withholding.' },
+            { label: 'Pathfinder rule-set feedback', text: 'If young-person mental health is being routed elsewhere when CAMHS would have been the right call, flag for Emma.' }
+          ]
+        }
+      ],
+      see_also: [
+        { route: 'mh_crisis', reason: 'For imminent crisis in a young person — 111 option 2 or 999, not CAMHS SPA.' },
+        { route: '999', reason: 'For imminent suicide attempt or severe self-injury in a young person.' },
+        { route: 'mh_safeguard', reason: 'For safeguarding concerns — runs in parallel with CAMHS, not as substitute.' },
+        { route: 'talking_ther', reason: 'For 18+ — Talking Therapies. CAMHS is under-18 only.' }
+      ],
+      governance: {
+        last_reviewed: '2026-05',
+        maintainer: 'Emma Woodbridge (Practice Manager)',
+        notes: 'Verify CAMHS SPA address and process annually. The "never turn a young person away" framing is foundational — review whether navigators are confident with it.'
+      }
+    },
+
+    /* ═══════════════════════ NHS 111 ═══════════════════════ */
+    nhs_111: {
+      key: 'nhs_111',
+      engine_route: 'nhs_111',
+      name: 'NHS 111',
+      tagline: 'Urgent advice and out-of-hours care. The national number for "I need help but it\'s not 999."',
+      tone: 'duty',
+      group: 'urgent',
+      tags: ['Urgent', '24/7', 'National service'],
+      blurb: 'For urgent but non-emergency needs. Out-of-hours, weekends, bank holidays. Option 2 for mental health crisis.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is — and where it fits',
+          content: `<p>NHS 111 is the national urgent advice line. It runs 24 hours a day, every day. It handles a wide range of situations: urgent advice when the practice is closed, out-of-hours assessment, mental health crisis (via option 2), dental emergencies, medication queries when the patient\'s pharmacy is closed, and the broad middle ground between "I can wait until tomorrow" and "I need an ambulance now".</p>
+<p>For Care Navigators, the most common use of NHS 111 is for patients ringing the practice <strong>out of hours</strong>, or in hours when their need is urgent but the practice can\'t respond on the timescale needed. It\'s also the right route when the patient is travelling away from home and needs urgent advice.</p>
+<p>A useful framing: 111 is the bridge between the practice and the rest of the urgent care system. When the practice isn\'t the right answer right now, 111 connects to whatever is — out-of-hours GP, urgent treatment centre, ambulance, A&E, mental health crisis team, urgent dental, pharmacy.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Number', '111 — free from any phone'],
+            ['Online', '111.nhs.uk — for non-emergency triage'],
+            ['Hours', '24 hours, 7 days a week'],
+            ['Option 2', 'Mental health crisis line — staffed by MH professionals'],
+            ['Coverage', 'National (England)'],
+            ['Common outcomes', 'Self-care advice, out-of-hours GP appointment, urgent treatment centre, ambulance dispatch, A&E, dental, pharmacy'],
+            ['When 999 instead', 'Life-threatening — 999 directly, not via 111'],
+            ['Out-of-hours GP service', 'FedBucks — accessed via 111']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When NHS 111 is the right route',
+          content: `<p>111 is the right route for:</p>
+<ul>
+<li><strong>Out-of-hours urgent advice</strong> — practice is closed, the patient can\'t wait until tomorrow but isn\'t in 999 territory.</li>
+<li><strong>Patients travelling away from home</strong> needing urgent advice.</li>
+<li><strong>Mental health crisis (option 2)</strong> — for non-imminent crisis. See the dedicated MH crisis route page.</li>
+<li><strong>Urgent dental problems</strong> — 111 can signpost to emergency dental services.</li>
+<li><strong>Urgent medication needs</strong> — when the patient\'s pharmacy is closed and they need emergency supply.</li>
+<li><strong>Urgent advice in the gap between calling us and being seen</strong> — if a patient has a duty callback booked but symptoms are changing, 111 can advise in the interim.</li>
+<li><strong>Patients with mobility limitations</strong> who need home visit triage — 111 can coordinate this.</li>
+<li><strong>"Should I go to A&E?"</strong> — 111 helps decide and can book directly into urgent care services.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          content: `<p>111 is well-known to most patients, but the value-add of suggesting it isn\'t always obvious to them. Frame it as a connector, not a brush-off.</p>`,
+          scripts: [
+            "If anything changes overnight, or if you don\'t feel you can wait, ring 111. They can arrange an out-of-hours appointment, get an ambulance if needed, or just give you advice — whatever fits.",
+            "We\'re closed at the weekend. If this gets worse before Monday, please ring 111. They can connect you with the right service — out-of-hours doctor, ambulance, urgent care — and they\'re free.",
+            "111 is the right number for tonight. They\'ll triage you properly and arrange whatever\'s needed. Don\'t wait until tomorrow if you\'re worried."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          content: `<p>Patients sometimes resist 111 — perceived long waits, past frustrations, or confusion about what 111 does.</p>`,
+          variants: [
+            {
+              situation: 'Patient says "111 takes ages"',
+              scripts: [
+                "I hear that. Wait times can vary. The online tool at 111.nhs.uk is sometimes faster — it triages in real time. If they\'re busy by phone, the website can short-cut the queue.",
+                "I get the frustration. It\'s still the right route, though — they\'re the only ones who can arrange the out-of-hours services for you tonight."
+              ]
+            },
+            {
+              situation: 'Patient wants to come to the practice tomorrow instead',
+              scripts: [
+                "If you\'re happy to wait, that\'s fine — and we\'ll see you tomorrow. But if it gets worse overnight, 111 is the right call. Don\'t feel you have to wait if you\'re worried.",
+                "Let\'s plan both. I\'ll get you booked in for tomorrow morning. If anything changes tonight, please ring 111 — they can arrange same-night assessment if needed."
+              ]
+            },
+            {
+              situation: 'Patient asks "should I just go to A&E?"',
+              scripts: [
+                "111 can decide that. They\'ll triage you and either book you somewhere appropriate or direct you to A&E if that\'s right. Going straight to A&E without their input often means a long wait for something that could have been seen elsewhere faster.",
+                "If you\'re in immediate danger, A&E or 999. Otherwise 111 first — they often have routes you don\'t know about."
+              ]
+            },
+            {
+              situation: 'Out-of-hours mental health',
+              scripts: [
+                "Ring 111 and press option 2 — that\'s the dedicated mental health crisis line, 24 hours, staffed by mental health professionals. They\'re the right people for this.",
+                "111 option 2 is specifically for mental health. Different from regular 111 — they\'re specialist."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'after_referral',
+          title: 'After the referral — what happens',
+          content: `<p>When the patient rings 111, the call typically runs:</p>
+<ol style="margin:0; padding-left:20px;">
+<li><strong>Initial questions</strong> — symptoms, history, location.</li>
+<li><strong>Triage by algorithm + clinical advisor</strong> — risk assessed, urgency determined.</li>
+<li><strong>Outcome arranged</strong> — see below.</li>
+</ol>`,
+          outcomes: [
+            { label: 'Self-care advice', tone: 'advice', text: 'For lower-acuity concerns. Patient managed at home with advice.' },
+            { label: 'Out-of-hours GP appointment', tone: 'note', text: 'Booked directly with FedBucks (our local out-of-hours service) or equivalent. Patient attends OOH base or has a home visit.' },
+            { label: 'Urgent treatment centre referral', tone: 'note', text: 'For things needing physical assessment but not A&E — UTCs handle minor injuries, suspected fractures, urgent illness.' },
+            { label: 'Ambulance dispatched', tone: 'duty', text: 'For situations 111 escalates to 999. Don\'t worry about "wasting" 111\'s time on something that turned out to be 999 — that\'s exactly what 111 is for.' },
+            { label: 'A&E', tone: 'duty', text: 'For situations needing emergency department but where the patient can get themselves there.' },
+            { label: 'Mental health crisis team', tone: 'duty', text: 'Via option 2 — the crisis team can arrange home visit, same-day assessment, or admission.' }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common 111 misroutes',
+          content: `<p>The mistakes here are usually about using 111 for things it\'s not designed for, or not using it when it would have been the right route.</p>`,
+          items: [
+            { title: '1. Telling patient to ring 111 for routine concerns', body: '111 is for urgent. Routine concerns belong with the practice. If you\'re tempted to send a patient to 111 for "they\'ll deal with it" reasons — that\'s a misroute.' },
+            { title: '2. Not mentioning 111 in safety-netting', body: 'Every safety-net for "if it gets worse" routings should include 111 as an option. A patient who deteriorates at 7pm shouldn\'t feel their only options are wait or 999.' },
+            { title: '3. Sending 999-acuity calls to 111', body: 'If the picture is 999, ring 999 directly. 111 will escalate — but it adds time. Time matters in stroke, MI, severe bleeding.' },
+            { title: '4. Forgetting option 2 for mental health', body: '111 option 2 is the mental health crisis line. Generic 111 will route, but option 2 gets the specialist team faster.' },
+            { title: '5. Not mentioning 111 online', body: '111.nhs.uk is often faster than the phone line. Worth mentioning to patients who say "the phone wait is too long".' },
+            { title: '6. Assuming 111 = OOH GP only', body: '111 is broader than OOH GP. It connects to ambulances, UTCs, A&E, dental, pharmacy, crisis teams. The framing matters.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When NHS 111 is NOT the right route',
+          content: `<p>111 is the urgent-care connector. Not the right route when:</p>
+<ul>
+<li><strong>Life-threatening situations</strong> — 999 directly. 111 will escalate, but time matters.</li>
+<li><strong>Routine concerns</strong> — book a practice appointment. 111 is for urgent.</li>
+<li><strong>Established care under a specialist team</strong> — for issues clearly within that team\'s scope, ring them directly. 111 will redirect anyway.</li>
+<li><strong>Patient already on the duty list</strong> — wait for the callback, unless symptoms have changed.</li>
+<li><strong>Repeat prescription queries</strong> — pharmacy team or practice during opening hours. 111 doesn\'t do this.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>111 is usually itself part of the safety-net for other routes. But the route to 111 has its own safety-netting:</p>
+<ul>
+<li><strong>If symptoms become life-threatening</strong> — 999, not 111. Examples: severe breathlessness, loss of consciousness, severe chest pain, suspected stroke.</li>
+<li><strong>If 111 advice doesn\'t seem to fit the situation</strong> — ring back. Sometimes a second triage call produces a different outcome.</li>
+<li><strong>Document what 111 advised</strong> — if the patient later rings the practice, knowing what 111 said helps the next clinical decision.</li>
+<li><strong>If the patient feels brushed off</strong> by 111 — they can ring back, or ring us, or attend A&E if they genuinely think they need to.</li>
+</ul>`
+        },
+        {
+          kind: 'audit_governance',
+          title: 'Audit & governance',
+          content: `<p>NHS 111 is a separate service from the practice. The practice doesn\'t audit 111 directly but does track patient outcomes from 111 referrals.</p>`,
+          items: [
+            { label: 'In EMIS', text: 'Signposting to 111 should be coded — distinguishes a genuine routing from a vague mention. Helps with follow-up if the patient later attends OOH.' },
+            { label: '111 feedback to practice', text: '111 sends post-call summaries back to the practice for patients who had clinical contact. These should be reviewed.' },
+            { label: 'FedBucks (OOH) interface', text: 'For Denham, the out-of-hours GP service is FedBucks, accessed via 111. Worth knowing the local name when discussing with patients.' },
+            { label: 'Pathfinder rule-set feedback', text: 'If a situation is being routed to 111 in Pathfinder when something else would have been better (or vice versa), flag for Emma.' },
+            { label: 'Recurring patterns', text: 'If a patient keeps using 111 for things the practice should be handling, that\'s a flag — possibly an access issue worth surfacing to Emma.' }
+          ]
+        }
+      ],
+      see_also: [
+        { route: '999', reason: 'For life-threatening situations — ring 999 directly, not via 111.' },
+        { route: 'mh_crisis', reason: '111 option 2 is the mental health crisis line — specialist staffing.' },
+        { route: 'gp_appointments', reason: 'For non-urgent concerns — practice routes, not 111.' },
+        { route: 'maternity_triage', reason: 'For pregnancy emergencies — maternity unit directly, often faster than 111.' }
+      ],
+      governance: {
+        last_reviewed: '2026-05',
+        maintainer: 'Emma Woodbridge (Practice Manager)',
+        notes: 'Update OOH provider name if FedBucks changes. The option 2 (MH crisis) signposting should be reviewed annually with the Talking Therapies and crisis team contacts.'
+      }
+    },
+
+    /* ═══════════════════════ PHYSICIAN ASSOCIATE (PA) ═══════════════════════ */
+    pa: {
+      key: 'pa',
+      engine_route: 'pa',
+      name: 'Physician Associate (PA)',
+      tagline: 'Adijat Agbontaen and Megan Lowe — Physician Associates at Denham. Acute illness, chronic review, minor procedures, working under GP supervision.',
+      tone: 'team',
+      group: 'in_house',
+      tags: ['In-house', 'Clinical'],
+      blurb: 'Clinical role working under GP supervision. Sees acute and chronic presentations, often with same-day capacity.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What a PA is — and how the role works',
+          content: `<p>A Physician Associate (PA) is a medically-trained clinician who works under the supervision of a GP. They see patients, take histories, examine, develop differential diagnoses, and formulate management plans. PAs cannot currently prescribe independently — they work with a supervising GP for prescribing decisions.</p>
+<p>At Denham, <strong>Adijat Agbontaen</strong> and <strong>Megan Lowe</strong> are the PAs. They handle a wide range of presentations and often have same-day capacity.</p>
+<p>For Care Navigators, the PA role overlaps significantly with ANP and GP for acute illness, but with two key differences: (a) PAs need GP supervision for prescribing, so any case where prescribing is likely takes a brief extra step; (b) PAs typically handle the breadth of general practice rather than a specialist niche.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'Physician Associate'],
+            ['Named people', 'Adijat Agbontaen, Megan Lowe'],
+            ['Can do', 'History, examination, diagnosis, management planning, minor procedures'],
+            ['Prescribing', 'Under GP supervision — not independent'],
+            ['Sees', 'Adults and children, acute and chronic'],
+            ['Capacity', 'Same-day and routine slots'],
+            ['Patient framing', 'Clinician within the GP team']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When PA is the right route',
+          content: `<p>PAs are appropriate for:</p>
+<ul>
+<li><strong>Acute illness</strong> — sore throat outside Pharmacy First, adult earache, chest infection, skin conditions, minor injuries.</li>
+<li><strong>Chronic disease review</strong> — alongside Practice Nurse, for medical management aspects.</li>
+<li><strong>Minor procedures</strong> — within their scope, often booked for things like joint injections, simple suturing.</li>
+<li><strong>Follow-up of investigations</strong> — discussing results, planning next steps with GP input where needed.</li>
+<li><strong>Where ANP is unavailable</strong> — PAs cover much of the same acute illness territory.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          content: `<p>The patient framing for PA is similar to ANP — emphasise they\'re a clinician, not an admin role.</p>`,
+          scripts: [
+            "I can book you in with one of our Physician Associates — Adijat or Megan. They\'re clinicians who work alongside the GPs. They\'ll assess this and arrange whatever you need — and if a prescription is required, they\'ll get that sorted with the GP\'s sign-off.",
+            "Megan / Adijat sees patients for exactly this kind of thing. She\'ll assess properly, and if she thinks the GP needs to be involved, that happens within the same visit usually."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common PA misroutes',
+          items: [
+            { title: '1. PA routed for cases needing complex prescribing', body: 'If the case clearly needs prescribing decisions that aren\'t routine, ANP or GP may be more efficient than PA + supervision.' },
+            { title: '2. Treating PA as "lesser GP"', body: 'PAs are clinicians in their own right. The framing should reflect that.' },
+            { title: '3. Routing minor procedure work elsewhere', body: 'PAs handle a lot of minor procedure work — worth knowing what they can do.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When PA is NOT the right route',
+          content: `<ul>
+<li><strong>Crisis or 999 presentations</strong> — direct escalation.</li>
+<li><strong>Complex undifferentiated case</strong> — GP generalism.</li>
+<li><strong>Mental health primary presentation</strong> — appropriate MH route.</li>
+<li><strong>MSK</strong> — FCP George is the right route.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>Standard clinical safety-net — if symptoms worsen, ring back. Same as for any clinical appointment.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'anp', reason: 'ANP can prescribe independently, often the more efficient route for cases needing prescribing.' },
+        { route: 'gp_appointments', reason: 'For complex undifferentiated cases.' },
+        { route: 'fcp', reason: 'MSK presentations go to FCP, not PA.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify scope and supervision arrangements annually.' }
+    },
+
+    /* ═══════════════════════ PRACTICE NURSE ═══════════════════════ */
+    practice_nurse: {
+      key: 'practice_nurse',
+      engine_route: 'practice_nurse',
+      name: 'Practice Nurse',
+      tagline: 'Elna Taylor, Luxmi Gordon, Charlie McCay — Practice Nurses at Denham. Chronic disease review, wound care, immunisations, sexual health.',
+      tone: 'team',
+      group: 'in_house',
+      tags: ['In-house', 'Chronic care', 'Planned work'],
+      blurb: 'For planned and chronic care — annual reviews, wounds, jabs. Elna handles asthma, COPD, cardiac, diabetes specifically.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What Practice Nurses do — and the role of specialism',
+          content: `<p>Practice Nurses provide planned nurse-led care: chronic disease reviews, wound care, immunisations, sexual health, contraception, smears, travel health, and ear care. They are not generally the route for new acute illness — that\'s ANP or PA or GP — but they are the backbone of routine care for stable long-term conditions.</p>
+<p>At Denham, <strong>Elna Taylor</strong> has specialist scope for asthma, COPD, cardiac and diabetes. She works Monday to Friday and handles annual reviews for these conditions. <strong>Luxmi Gordon</strong> and <strong>Charlie McCay</strong> are the other Practice Nurses, with broader generalist scope.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'Practice Nurse'],
+            ['Named people', 'Elna Taylor (Mon–Fri, asthma/COPD/cardiac/diabetes specialist), Luxmi Gordon, Charlie McCay'],
+            ['Handles', 'Chronic disease reviews, wound care, immunisations, sexual health, smears, travel health'],
+            ['Does not handle', 'New acute illness (ANP/PA/GP for those)'],
+            ['Booking', 'Routine — typically planned ahead'],
+            ['Specialism note', 'Elna for asthma/COPD/cardiac/diabetes annual reviews specifically']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When Practice Nurse is the right route',
+          content: `<ul>
+<li><strong>Annual review of chronic conditions</strong> — diabetes, asthma, COPD, cardiac, hypertension. Elna for the specialist ones.</li>
+<li><strong>Wound care</strong> — dressings, stitch removal, ongoing wound management.</li>
+<li><strong>Immunisations</strong> — childhood, adult, flu, COVID, travel.</li>
+<li><strong>Sexual health</strong> — contraception, smears, STI checks.</li>
+<li><strong>Travel health</strong> — pre-travel advice, vaccinations.</li>
+<li><strong>Ear syringing / wax removal</strong> — after clinical assessment confirms wax.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "I\'ll book you in with one of our Practice Nurses for that — they handle all the planned work like annual reviews and dressings. For your asthma review I\'ll specifically book Elna — she\'s our asthma and COPD specialist.",
+            "Practice Nurse is the right route for this. They have the time to do it properly, and they\'re the experts in this kind of ongoing care."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common Practice Nurse misroutes',
+          items: [
+            { title: '1. Acute flare-up routed to Practice Nurse review', body: 'A known asthmatic now wheezy isn\'t a Practice Nurse review — that\'s acute, needs ANP or duty GP. The Practice Nurse handles the planned annual review.' },
+            { title: '2. Booking annual review when ear syringing is needed', body: 'Ear care needs clinical assessment first to confirm wax. Don\'t book ear syringing without that step.' },
+            { title: '3. New acute illness routed to Practice Nurse', body: 'They don\'t do that. Use ANP or PA.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When Practice Nurse is NOT the right route',
+          content: `<ul>
+<li><strong>New acute illness</strong> — ANP, PA, or GP.</li>
+<li><strong>Mental health presentations</strong> — appropriate MH route.</li>
+<li><strong>MSK</strong> — FCP George.</li>
+<li><strong>Pharmacy First-eligible conditions</strong> — pharmacy first.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If anything changes acutely before the appointment, ring back — the route may need to change.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'hca', reason: 'For blood tests and BP checks on an existing plan — HCA, not Practice Nurse.' },
+        { route: 'anp', reason: 'For acute illness — ANP, not Practice Nurse.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify Practice Nurse specialisms and days annually.' }
+    },
+
+    /* ═══════════════════════ HCA ═══════════════════════ */
+    hca: {
+      key: 'hca',
+      engine_route: 'hca',
+      name: 'Healthcare Assistant (HCA)',
+      tagline: 'Alison Woods and Georgia Tobin — HCAs at Denham. Blood tests, BP, ECGs, NHS Health Checks. Always after a clinician has decided.',
+      tone: 'team',
+      group: 'in_house',
+      tags: ['In-house', 'Planned tasks'],
+      blurb: 'For blood tests, BP, ECG, Health Checks. Always on a clinician\'s plan — not patient-led.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What HCAs do — and the patient-led trap',
+          content: `<p>Healthcare Assistants carry out planned tasks: blood tests, blood pressure measurements, ECGs, NHS Health Checks, occasionally dressings or basic wound care. They are not clinical decision-makers — they execute tasks that a clinician has decided on.</p>
+<p>The critical framing for Care Navigators: <strong>HCA work is always part of a clinical plan</strong>. A patient ringing to "get a blood test" isn\'t a direct HCA booking — it\'s a clinical question first. What test? Why? What will be done with the result? Without a clinician\'s decision, the HCA\'s work has no plan attached.</p>
+<p>The "patient-led HCA booking" is the most common misroute on this route. Patients sometimes phone explicitly asking for an HCA appointment. Resist the instinct to just book it — check whether there\'s a clinical plan first.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'Healthcare Assistant'],
+            ['Named people', 'Alison Woods, Georgia Tobin'],
+            ['Handles', 'Blood tests, BP, ECG, NHS Health Checks, basic wound care'],
+            ['Does not handle', 'Clinical decisions about what tests to do'],
+            ['Booking', 'Should always follow a clinician\'s plan']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When HCA is the right route',
+          content: `<ul>
+<li><strong>Blood test on an existing clinical plan</strong> — clinician has requested specific bloods, HCA does them.</li>
+<li><strong>BP check on a monitoring plan</strong> — hypertension review, annual check.</li>
+<li><strong>Annual diabetic / asthma / COPD bloods</strong> as part of the planned review cycle.</li>
+<li><strong>NHS Health Check</strong> — eligible patients (40–74, no existing condition) can book directly.</li>
+<li><strong>ECG when clinician has requested</strong>.</li>
+<li><strong>Routine dressings on an established plan</strong>.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "I\'ll book you in with our HCA for the bloods. Alison or Georgia will see you — quick and straightforward.",
+            "For a routine BP check, the HCA is the right person. They do that throughout the day."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for the patient-led booking',
+          content: `<p>This is the call where the navigator most often makes the wrong choice. Handle it carefully.</p>`,
+          variants: [
+            {
+              situation: 'Patient asks "can I just have a blood test?"',
+              scripts: [
+                "Before I book, can I check — has a clinician asked for specific tests, or is this you wanting to be checked? If it\'s the second one, I\'d like to get a clinician to look at what would actually be helpful first. Otherwise you might come away with a result that doesn\'t have a plan attached.",
+                "Bloods need to be the right ones for the right reason. Let me see if we can get the clinician to decide what would be useful — then we book you with the HCA for it."
+              ]
+            },
+            {
+              situation: 'Patient wants BP check without a plan',
+              scripts: [
+                "We can do a BP check, but if you\'re worried about your blood pressure, it\'s worth a quick clinical conversation first to work out the right plan. One isolated reading often raises more questions than it answers.",
+                "Let me get one of our team to review what you\'re asking — then if a BP check is the right next step, we\'ll book that."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common HCA misroutes',
+          items: [
+            { title: '1. Patient-led blood test booking', body: 'The cardinal HCA misroute. A patient asking for "a blood test" without a clinician\'s plan needs a clinical conversation first.' },
+            { title: '2. Acute clinical concern routed to HCA', body: 'If the patient is unwell or has new concerning symptoms, that\'s clinical work — not HCA.' },
+            { title: '3. New patient health check booked as HCA-only', body: 'New patient checks often have a clinical component worth flagging — not pure HCA work.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When HCA is NOT the right route',
+          content: `<ul>
+<li><strong>Anything requiring clinical decision-making</strong> — clinician first.</li>
+<li><strong>Patient-led requests without a plan</strong> — clinical conversation first.</li>
+<li><strong>Acute presentations</strong> — appropriate clinical route.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>HCA appointments are usually low-stakes, but if anything changes between booking and attending — particularly if the patient becomes unwell — ring back.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'practice_nurse', reason: 'For chronic disease reviews — that\'s Practice Nurse, not HCA.' },
+        { route: 'gp_appointments', reason: 'When patient-led testing requests need clinical input first.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'The patient-led booking trap is worth highlighting in induction.' }
+    },
+
+    /* ═══════════════════════ IN-HOUSE PHARMACY ═══════════════════════ */
+    in_house_pharm: {
+      key: 'in_house_pharm',
+      engine_route: 'in_house_pharm',
+      name: 'In-house Pharmacy team',
+      tagline: 'Jaspreet Girn, Pinali Patel, Farah Naz — the pharmacy team within Denham. Medication queries, reviews, repeats.',
+      tone: 'team',
+      group: 'in_house',
+      tags: ['In-house', 'Medication'],
+      blurb: 'For medication queries, side effects, interactions, reviews, repeat prescription issues.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What the in-house pharmacy team does',
+          content: `<p>The in-house pharmacy team is the practice\'s own pharmacist resource. They handle medication queries that don\'t need a GP\'s clinical decision: side effect questions, interaction queries, medication reviews, repeat prescription issues, medicine optimisation for patients on multiple medications, and the daily flow of prescription-related work.</p>
+<p>At Denham, the team is <strong>Jaspreet Girn</strong>, <strong>Pinali Patel</strong>, and <strong>Farah Naz</strong>. They work within the practice — separate from Pharmacy First, which is community pharmacy.</p>
+<p>The simple test: <em>"Is this a question about a patient\'s existing medication?"</em> Yes → in-house pharmacy. New prescribing decisions go to a prescriber.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'In-house Pharmacy team'],
+            ['Named people', 'Jaspreet Girn, Pinali Patel, Farah Naz'],
+            ['Handles', 'Medication queries, reviews, side effects, interactions, repeat issues'],
+            ['Does not handle', 'New prescribing decisions (clinician work)'],
+            ['Different from', 'Pharmacy First (community pharmacy service)']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When in-house pharmacy is the right route',
+          content: `<ul>
+<li><strong>Repeat prescription queries</strong> — patient asking about an existing repeat, sorting issues with the prescription workflow.</li>
+<li><strong>Medication review requests</strong> — especially for patients on multiple medications.</li>
+<li><strong>Side effect queries</strong> — patient experiencing something they think might be the medication.</li>
+<li><strong>Interaction questions</strong> — patient about to start something new and worried about interactions.</li>
+<li><strong>Routine medication adjustments</strong> within an existing prescribing plan.</li>
+<li><strong>"Can I stop this?" / "Do I still need this?"</strong> — pharmacist review can address.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "Let me put you through to our in-house pharmacy team — Jaspreet, Pinali, or Farah. They handle all medication queries and can sort this without you needing to see a doctor.",
+            "Our pharmacy team is the right route for this. They\'ll look at your meds and either fix it themselves or, if it needs a GP\'s input, they\'ll arrange that."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common in-house pharmacy misroutes',
+          items: [
+            { title: '1. Routine medication query routed to GP', body: 'A repeat prescription question doesn\'t need a 10-minute GP slot. The pharmacy team handles it.' },
+            { title: '2. New medication request routed to pharmacy team', body: 'They can\'t initiate new prescribing — that\'s the clinician\'s decision.' },
+            { title: '3. Pharmacy First confused with in-house pharmacy', body: 'Pharmacy First is community pharmacy for the seven conditions. In-house is our team for medication queries. Different services.' },
+            { title: '4. Side effect routed as new clinical presentation', body: 'If a patient describes a symptom that sounds like a side effect, the pharmacy team can review whether the medication is the cause before booking a full clinical appointment.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When in-house pharmacy is NOT the right route',
+          content: `<ul>
+<li><strong>New clinical presentations</strong> — clinician.</li>
+<li><strong>Allergic reaction to medication</strong> — 999 if anaphylaxis, otherwise duty.</li>
+<li><strong>Mental health medication queries during a crisis</strong> — appropriate MH route.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If a side effect is severe or escalating, ring back or 999 if anaphylaxis. Standard medication safety-net applies.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'pharmacy_first', reason: 'Pharmacy First is the community service for seven conditions — different from in-house pharmacy.' },
+        { route: 'gp_appointments', reason: 'For new prescribing decisions.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify team composition annually.' }
+    },
+
+    /* ═══════════════════════ MSK SELF-REFERRAL ═══════════════════════ */
+    msk_selfref: {
+      key: 'msk_selfref',
+      engine_route: 'msk_selfref',
+      name: 'MSK self-referral (StayWell BOB)',
+      tagline: 'Adult MSK self-referral via StayWell BOB. Parallel to in-house FCP — patients can refer themselves directly.',
+      tone: 'service',
+      group: 'external',
+      tags: ['External', 'Self-referral', 'MSK'],
+      blurb: 'For adult MSK — patients can self-refer directly. Parallel to FCP George.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is — and how it sits alongside FCP',
+          content: `<p>StayWell BOB is the community MSK service for adults across Bucks, Oxon and Berks West. Patients can self-refer directly — no GP referral needed. The service provides physiotherapy, advice, and onward referral where needed.</p>
+<p>The key choice for Care Navigators: <strong>self-referral or FCP?</strong> Both are valid for adult MSK. Rough rule:</p>
+<ul>
+<li><strong>FCP George</strong> for cases with diagnostic uncertainty, where examination is needed before any plan, where imaging might be considered, or where the patient wants/needs a single point of clinical decision-making.</li>
+<li><strong>StayWell BOB self-referral</strong> for cases that are clearly rehab-shaped — known issue, needs physio input, patient willing and able to self-refer.</li>
+</ul>
+<p>Either is appropriate for many cases. When in doubt, FCP is more conservative because it includes a clinical assessment step.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Service', 'StayWell BOB (community MSK)'],
+            ['Coverage', 'Bucks, Oxon, Berks West'],
+            ['For', 'Adults 16+'],
+            ['Access', 'Self-referral via website'],
+            ['Cost', 'Free (NHS)'],
+            ['Alternative', 'FCP George at Denham']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When MSK self-referral is the right route',
+          content: `<ul>
+<li><strong>Clear MSK rehab need</strong> — known issue, needs physio input.</li>
+<li><strong>Patient is willing and able to self-refer</strong> — comfortable with online forms, has decision capacity.</li>
+<li><strong>Adult 16+</strong> — service is for adults.</li>
+<li><strong>No red-flag features</strong> — those go to GP or 999, not MSK.</li>
+<li><strong>FCP capacity stretched</strong> — and the case is appropriate for community physio.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "Adults can refer themselves to StayWell BOB — that\'s the local community MSK service. Free, NHS, online form. They\'ll get you assessed without needing to come through us. Worth knowing about.",
+            "We can do this two ways — book you with George, our FCP, which means an appointment with us; or you can self-refer to StayWell BOB online and go through the community service. Either is fine for what you\'ve described. Which would you prefer?"
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common misroutes',
+          items: [
+            { title: '1. Self-referral suggested when red flags present', body: 'Cauda equina or systemic features need GP / 999, not StayWell BOB.' },
+            { title: '2. Self-referral suggested for under-16s', body: 'Service is adults 16+. Children\'s MSK has different routes.' },
+            { title: '3. Self-referral framed as second-best', body: 'It\'s a legitimate route. Frame it as a choice, not a fallback.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When MSK self-referral is NOT the right route',
+          content: `<ul>
+<li><strong>Red-flag features</strong> — GP or 999.</li>
+<li><strong>Under-16</strong> — different services.</li>
+<li><strong>Diagnostic uncertainty</strong> — FCP George can examine and decide.</li>
+<li><strong>Patient unable to self-refer</strong> — FCP or assisted referral.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If red-flag features develop, ring us or 999 — don\'t wait for the MSK service appointment.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'fcp', reason: 'FCP George is the in-house parallel route.' },
+        { route: '999', reason: 'Cauda equina features.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify service name and access route annually.' }
+    },
+
+    /* ═══════════════════════ BE HEALTHY BUCKS ═══════════════════════ */
+    be_healthy: {
+      key: 'be_healthy',
+      engine_route: 'be_healthy',
+      name: 'Be Healthy Bucks',
+      tagline: 'Smoking, weight, alcohol, NHS Health Checks. Free Buckinghamshire lifestyle service. Self-sign-up online.',
+      tone: 'service',
+      group: 'external',
+      tags: ['External', 'Self-referral', 'Lifestyle'],
+      blurb: 'For lifestyle change — stop smoking, weight management, alcohol, NHS Health Checks.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is',
+          content: `<p>Be Healthy Bucks is the local NHS-funded lifestyle service. Free, accessible online, covers stop smoking support, weight management, alcohol support, and NHS Health Checks. Patients can self-sign-up — no referral needed.</p>
+<p>For Care Navigators, Be Healthy Bucks is the right route when the patient\'s call is about lifestyle change rather than a clinical concern. It\'s also a useful adjacent route for patients with clinical conditions where lifestyle is part of the management (smoker with COPD, drinker with hypertension, etc.).</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Service', 'Be Healthy Bucks'],
+            ['Covers', 'Smoking, weight, alcohol, NHS Health Checks'],
+            ['Access', 'Self-sign-up online'],
+            ['Cost', 'Free'],
+            ['For', 'Buckinghamshire residents']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When Be Healthy Bucks is the right route',
+          content: `<ul>
+<li><strong>Stop smoking</strong> — patient wants support to quit.</li>
+<li><strong>Weight management</strong> — structured programmes available.</li>
+<li><strong>Alcohol support</strong> — for non-dependence-level concerns. Specialist services for dependence.</li>
+<li><strong>NHS Health Check</strong> — eligible patients (40–74, no existing relevant condition) can book through the service.</li>
+<li><strong>Adjacent route</strong> — for patients with clinical conditions where lifestyle is part of management.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "Be Healthy Bucks is the right place for that. Free, NHS, you can sign up online — they\'ll get back to you and set you up with the right programme.",
+            "Alongside what we\'re doing with the [clinical issue], it\'s worth mentioning Be Healthy Bucks for the [smoking / weight / alcohol] side. Self-sign-up online, free."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common misroutes',
+          items: [
+            { title: '1. Active alcohol dependence routed to Be Healthy Bucks', body: 'For active dependence, specialist services are needed — not Be Healthy Bucks. The line is real; if in doubt, clinical input first.' },
+            { title: '2. Money worries folded into "lifestyle"', body: 'Financial difficulty is Social Prescriber (Hanna), not Be Healthy Bucks.' },
+            { title: '3. Treating it as a brush-off', body: 'Be Healthy Bucks is a substantial service. The framing should reflect that.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When Be Healthy Bucks is NOT the right route',
+          content: `<ul>
+<li><strong>Active alcohol or drug dependence</strong> — specialist services.</li>
+<li><strong>Eating disorder concerns</strong> — different services.</li>
+<li><strong>Social or financial concerns</strong> — Social Prescriber.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If the underlying issue turns out to need clinical attention (e.g. alcohol dependence becoming apparent), ring back — different route needed.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'social_pres', reason: 'For social / financial / loneliness aspects — Social Prescriber, not lifestyle service.' },
+        { route: 'gp_appointments', reason: 'For clinical issues underneath the lifestyle complaint.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify access details annually.' }
+    },
+
+    /* ═══════════════════════ MATERNITY TRIAGE ═══════════════════════ */
+    maternity_triage: {
+      key: 'maternity_triage',
+      engine_route: 'maternity_triage',
+      name: 'Maternity triage',
+      tagline: 'For pregnancy concerns — direct to the maternity unit, not GP. Reduced fetal movements, bleeding, pain in pregnancy.',
+      tone: 'crisis',
+      group: 'urgent',
+      tags: ['Urgent', 'Pregnancy'],
+      blurb: 'Direct route to the maternity unit for pregnancy concerns. Same-day, not GP-routed.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What it is',
+          content: `<p>For pregnancy concerns from roughly 16–20 weeks onwards (depending on local protocols), the right route is the maternity unit\'s triage line — not the GP. The maternity team is the specialist and can see the patient same-day for concerning features.</p>
+<p>The local maternity unit for Denham is at Wycombe Hospital (Bucks Maternity). Patients are given their unit\'s triage number at booking — most have it stored.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Service', 'Maternity Triage'],
+            ['Local unit', 'Wycombe Hospital (Bucks Maternity)'],
+            ['Access', 'Direct phone — patient should have triage number from booking'],
+            ['Hours', 'Typically 24/7'],
+            ['For', 'Pregnancy 16–20 weeks onwards (local protocol-dependent)']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When maternity triage is the right route',
+          content: `<ul>
+<li><strong>Reduced fetal movements</strong> — non-negotiable same-day assessment. Patient should NOT wait.</li>
+<li><strong>Bleeding in pregnancy</strong> — depending on stage and severity, maternity triage or 999.</li>
+<li><strong>Significant pain in pregnancy</strong> — beyond normal.</li>
+<li><strong>Suspected leak of waters</strong>.</li>
+<li><strong>Any concern in late pregnancy</strong> — when in doubt, maternity not GP.</li>
+</ul>
+<div class="route-callout warn"><div class="route-callout-label">Critical</div>
+Reduced fetal movements: same-day maternity triage, no exceptions. Do not advise "wait and see" or book a routine GP appointment.</div>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "For what you\'re describing in pregnancy, the maternity unit\'s triage line is the right route — they can see you today. They\'re the specialists, and they\'re much faster than coming through us. Do you have their number from your booking?",
+            "Reduced movements always need same-day check. Please ring the maternity unit triage — they will see you. Don\'t wait until tomorrow."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common maternity triage misroutes',
+          items: [
+            { title: '1. Reduced fetal movements routed to "wait and see" or routine GP', body: 'Non-negotiable same-day. The most consequential maternity misroute.' },
+            { title: '2. Bleeding in pregnancy routed to GP rather than maternity', body: 'Maternity has the right specialism and the right scanning equipment. GP can\'t do what maternity can.' },
+            { title: '3. Severe symptoms in pregnancy routed to maternity when 999 was needed', body: 'Severe abdominal pain with bleeding and shock — 999. Always weigh severity.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When maternity triage is NOT the right route',
+          content: `<ul>
+<li><strong>Life-threatening situations</strong> — 999.</li>
+<li><strong>Pre-pregnancy concerns or early pregnancy under 16 weeks</strong> — usually GP route, sometimes EPU (Early Pregnancy Unit).</li>
+<li><strong>Routine pregnancy questions</strong> — community midwife.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If the patient can\'t get through to maternity triage, escalate to 999 or duty GP rather than letting them wait. Pregnancy concerns are time-sensitive.</p>`
+        }
+      ],
+      see_also: [
+        { route: '999', reason: 'For life-threatening pregnancy emergencies.' },
+        { route: 'gp_appointments', reason: 'For early pregnancy and non-urgent pregnancy questions.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify local maternity unit name and triage number annually.' }
+    },
+
+    /* ═══════════════════════ SAFEGUARDING ═══════════════════════ */
+    mh_safeguard: {
+      key: 'mh_safeguard',
+      engine_route: 'mh_safeguard',
+      name: 'Safeguarding',
+      tagline: 'For concerns about abuse, neglect, vulnerability. Practice safeguarding lead. Recognise, record, report — never investigate.',
+      tone: 'safe',
+      group: 'urgent',
+      tags: ['Safeguarding', 'Critical'],
+      blurb: 'Practice safeguarding lead is Helena Roome. National helplines available 24/7.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'The safeguarding principle — and the navigator\'s role',
+          content: `<p>Safeguarding covers concerns about abuse, neglect, exploitation, or significant vulnerability of any patient — child or adult. For Care Navigators, the principle is clear and three-word: <strong>recognise, record, report</strong>. Never investigate.</p>
+<p>What this means in practice: if something said during a call gives you concern about safeguarding — a child sounding frightened, a vulnerable adult describing controlled circumstances, an elderly person who seems neglected — your job is to recognise the concern, record what was said as precisely as you can, and report it to the practice safeguarding lead. It is <em>not</em> your job to question the patient further to "find out more", or to confront the situation, or to decide whether it\'s "really" safeguarding.</p>
+<p>The practice safeguarding lead at Denham is <strong>Helena Roome</strong>. She coordinates with the GPs and external safeguarding teams.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Practice lead', 'Helena Roome'],
+            ['Principle', 'Recognise, record, report — never investigate'],
+            ['National DA helpline', '0808 2000 247 (24/7)'],
+            ['Childline', '0800 1111 (24/7, for young people)'],
+            ['NSPCC', '0808 800 5000 (24/7, for adults concerned about a child)'],
+            ['Adult safeguarding', 'Bucks County Council adult safeguarding line']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When to flag safeguarding',
+          content: `<p>Flag any concern that suggests:</p>
+<ul>
+<li><strong>Domestic abuse</strong> — physical, controlling behaviour, financial control, fear of partner, unexplained injuries.</li>
+<li><strong>Child welfare concern</strong> — frightened child, neglect, witnessing abuse.</li>
+<li><strong>Vulnerable adult concern</strong> — neglect of elderly relative, controlling carer, exploitation.</li>
+<li><strong>Sexual exploitation</strong> — particularly involving young people or vulnerable adults.</li>
+<li><strong>Modern slavery indicators</strong> — controlled movement, lack of personal documents, isolation.</li>
+<li><strong>Suspected abuse of any kind</strong> — even if you\'re not sure.</li>
+</ul>
+<div class="route-callout warn"><div class="route-callout-label">Be careful what you say on the line</div>
+If you suspect a partner or perpetrator may be listening at the patient\'s end, do not press for detail. Acknowledge what was said, arrange a route forward, and follow up safely.</div>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say (and not say)',
+          content: `<p>Phrasing matters more here than anywhere else. The patient\'s safety may depend on it.</p>`,
+          scripts: [
+            "Thank you for telling me. I\'m going to make sure someone speaks with you about that properly. Is it safe for me to ring you back on this number?",
+            "I hear what you\'re saying. I want to make sure you have the right support. The National Domestic Abuse Helpline is 0808 2000 247 — that\'s free and 24 hours. We can also have one of our GPs speak with you. Which would feel safer?",
+            "I\'m going to flag this with our safeguarding lead at the practice. Helena will work out the best way for us to support you. Is there a safe way for someone to contact you?"
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          variants: [
+            {
+              situation: 'Patient may not be able to speak freely',
+              scripts: [
+                "Are you in a place where you can speak freely right now? If not, you can just say yes or no to my questions — I\'ll work it out.",
+                "If you can\'t talk now, can you ring back later or come into the practice in person?"
+              ]
+            },
+            {
+              situation: 'Child sounding frightened on the line',
+              scripts: [
+                "Is there a grown-up with you right now? OK. Can I speak with you for just a moment? Are you safe?",
+                "Childline is for young people like you. Free, anytime. 0800 1111. They\'re really good at listening."
+              ]
+            },
+            {
+              situation: 'Caller flagging concern about someone else',
+              scripts: [
+                "Thank you for ringing. What you\'ve described matters — even if you\'re not certain. I\'m going to flag this with our safeguarding lead, and we\'ll work out the right route from here. Can I take some details?",
+                "Concerns like this are exactly what safeguarding is for. You\'ve done the right thing ringing."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'after_referral',
+          title: 'After the flag — what happens',
+          content: `<p>Once a safeguarding concern is flagged:</p>
+<ol style="margin:0; padding-left:20px;">
+<li><strong>Record contemporaneously</strong> — exact words used, time of call, your concerns. Precise wording matters for any subsequent process.</li>
+<li><strong>Tell Helena Roome (safeguarding lead)</strong> — directly, the same day. Not just a note.</li>
+<li><strong>Duty GP awareness</strong> — particularly if the patient needs clinical follow-up.</li>
+<li><strong>External referral</strong> — Helena coordinates with adult or children\'s safeguarding services as needed. Care Navigators do not make external safeguarding referrals directly.</li>
+<li><strong>Follow-up plan</strong> — Helena and the GP team plan how to safely engage with the patient.</li>
+</ol>`
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common safeguarding misroutes',
+          items: [
+            { title: '1. Asking the patient questions to "investigate"', body: 'Not the navigator\'s role. Recognise, record, report. Probing questions can put the patient at greater risk and damage future legal process.' },
+            { title: '2. Dismissing concern because "we don\'t know for sure"', body: 'You don\'t need to be sure. The safeguarding team decides what to do with the information. Your job is to flag.' },
+            { title: '3. Discussing the concern within earshot of family/perpetrators', body: 'Maintain caution. Use phrases like "I\'ll make sure someone gets back to you" rather than detail.' },
+            { title: '4. Treating safeguarding as a separate route only', body: 'Safeguarding often runs alongside clinical or mental health routes. It doesn\'t replace them — it sits alongside.' },
+            { title: '5. Not recording the call accurately', body: 'Documentation matters. Future safeguarding processes — police, social services, court — may depend on what was recorded contemporaneously.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When safeguarding is NOT the route',
+          content: `<p>Safeguarding is always available as a parallel route. But as the <em>primary</em> route, it\'s not right when:</p>
+<ul>
+<li><strong>The concern is clinical only</strong> — but if there\'s any safeguarding aspect, flag it too.</li>
+<li><strong>Patient has explicitly declined</strong> — but document the offer and the response. Safeguarding can still be considered if the situation warrants.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>Safeguarding follow-up depends on Helena and the GP team. The Care Navigator should ensure:</p>
+<ul>
+<li>The concern is documented and the safeguarding lead is informed the same day.</li>
+<li>The patient has emergency numbers if they need them — 999, National DA Helpline (0808 2000 247), Childline (0800 1111).</li>
+<li>If the patient is in immediate danger, 999 — alongside the safeguarding process, not instead of it.</li>
+</ul>`
+        }
+      ],
+      see_also: [
+        { route: '999', reason: 'Immediate danger — 999 alongside safeguarding.' },
+        { route: 'camhs_spa', reason: 'Children\'s mental health concerns often have safeguarding overlap.' },
+        { route: 'gp_appointments', reason: 'Clinical follow-up after a safeguarding flag.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager) + Helena Roome (Safeguarding Lead)', notes: 'Verify Helena\'s role and helpline numbers annually. Safeguarding policy training is mandatory.' }
+    },
+
+    /* ═══════════════════════ PRACTICE SECRETARY ═══════════════════════ */
+    secretary: {
+      key: 'secretary',
+      engine_route: 'secretary',
+      name: 'Practice secretary',
+      tagline: 'Anita Riches (Mon–Thu mornings) and Pauline Manning (Mon–Fri mornings). Referral chases, correspondence, results queries.',
+      tone: 'team',
+      group: 'in_house',
+      tags: ['In-house', 'Admin'],
+      blurb: 'For referral chases, letter queries, results status. Mornings only.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What the secretaries do',
+          content: `<p>The practice secretaries handle the administrative side of referrals and correspondence: chasing referrals that haven\'t been actioned, dealing with letters in and out, handling queries about results that need administrative follow-up. They work mornings only.</p>
+<p><strong>Anita Riches</strong> works Monday to Thursday mornings. <strong>Pauline Manning</strong> works Monday to Friday mornings. Afternoons, secretarial queries wait until the next morning.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['Role', 'Practice secretary'],
+            ['Named people', 'Anita Riches (Mon–Thu am), Pauline Manning (Mon–Fri am)'],
+            ['Hours', 'Mornings only'],
+            ['Handles', 'Referral chases, correspondence, letter queries, results status']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When secretary is the right route',
+          content: `<ul>
+<li><strong>Patient chasing a referral</strong> — has it been actioned, where is it.</li>
+<li><strong>Letter queries</strong> — discharge summary missing, letter not received.</li>
+<li><strong>Results status</strong> — is the result back, has it been actioned by the clinician.</li>
+<li><strong>Correspondence requests</strong> — copies of letters, fit note copies, supporting letters.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "I\'ll put a task to our secretaries — Anita or Pauline will look at the referral for you. They work mornings, so you\'ll hear back tomorrow at the latest.",
+            "Referral chases go to our secretaries. They\'ll find out where it is and get back to you."
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common misroutes',
+          items: [
+            { title: '1. Acute clinical concern routed to secretary', body: 'If the patient is unwell while waiting for a referral, that\'s clinical work — not just chasing the referral.' },
+            { title: '2. Booking secretary work outside their hours', body: 'They work mornings only. Afternoon queries will wait until next morning. Tell the patient.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When secretary is NOT the right route',
+          content: `<ul>
+<li><strong>Clinical concern about the waiting condition</strong> — clinical route alongside the chase.</li>
+<li><strong>New presentations</strong> — clinical route.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>If symptoms worsen while waiting for a referral, ring back for clinical assessment — don\'t just wait for the secretary to chase.</p>`
+        }
+      ],
+      see_also: [
+        { route: 'gp_appointments', reason: 'For clinical concerns while waiting for a referral.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'Verify hours and named people annually.' }
+    },
+
+    /* ═══════════════════════ SELF-CARE ═══════════════════════ */
+    self_care: {
+      key: 'self_care',
+      engine_route: 'self_care',
+      name: 'Self-care + pharmacy OTC',
+      tagline: 'Most viral illnesses, hayfever, minor injuries — self-care with over-the-counter pharmacy support. Not "fobbing off" — the right route.',
+      tone: 'service',
+      group: 'self',
+      tags: ['Self-care', 'Pharmacy OTC'],
+      blurb: 'For viral illnesses, hayfever, minor injuries. The community pharmacist advises on OTC products.',
+      status: 'complete',
+      sections: [
+        {
+          kind: 'overview',
+          title: 'What this route is — and why the framing matters',
+          content: `<p>A meaningful share of primary care presentations are self-limiting illnesses that need rest, fluids, and OTC symptom relief — not a clinical appointment, and not antibiotics. Coughs, colds, viral sore throats, hayfever, minor sprains, mild rashes — these typically resolve on their own with self-care.</p>
+<p>The framing for Care Navigators is critical: <strong>"self-care" is a real route, not a brush-off</strong>. Many patients hear it as "you don\'t deserve a doctor". The phrasing has to convey: we\'ve looked at what you\'re describing, this is the right level of intervention for this condition, here\'s what to do, here\'s when to come back if it changes.</p>
+<p>The community pharmacist is part of self-care. Patients can walk into any pharmacy for OTC advice — no appointment, no referral. Pharmacists are highly trained on minor illness and can recommend the right product, dose, and duration. Pharmacy First (the seven conditions service) is different — that\'s pharmacist-as-prescriber for specific conditions.</p>`
+        },
+        {
+          kind: 'fact_grid',
+          title: 'At a glance',
+          facts: [
+            ['What it is', 'Self-care with OTC pharmacy support'],
+            ['Different from', 'Pharmacy First (specific seven conditions service)'],
+            ['Cost', 'OTC products patient-paid (or free for exempt patients)'],
+            ['When to use', 'Self-limiting viral illness, hayfever, minor injuries — without red-flag features']
+          ]
+        },
+        {
+          kind: 'overview',
+          title: 'When self-care is the right route',
+          content: `<ul>
+<li><strong>Cough and cold</strong> — most are viral, last 1–3 weeks. Paracetamol/ibuprofen, fluids, rest.</li>
+<li><strong>Viral sore throat</strong> — under 5s, or adults outside Pharmacy First criteria.</li>
+<li><strong>Hayfever</strong> — antihistamines, nasal spray. Pharmacist can advise.</li>
+<li><strong>Minor cuts and grazes</strong>.</li>
+<li><strong>Mild sprains and strains</strong> — RICE (rest, ice, compression, elevation).</li>
+<li><strong>Mild headache, mild back pain</strong> — without red flags, short duration.</li>
+<li><strong>Constipation, mild diarrhoea</strong> — pharmacist can advise on OTC options.</li>
+<li><strong>Mild skin irritation, mild athlete\'s foot, mild thrush</strong>.</li>
+</ul>`
+        },
+        {
+          kind: 'navigator_phrasing',
+          title: 'What to say to the patient',
+          scripts: [
+            "For what you\'re describing, this is the kind of thing that usually settles on its own with paracetamol or ibuprofen, plenty of fluids, and rest. Worth a chat with the pharmacist if you want advice on what to take — they\'re excellent for this. If it\'s not settling in a week or gets worse, ring us back.",
+            "Sounds like a viral one — antibiotics won\'t help, and seeing a clinician won\'t make it go faster. Self-care is the right route. Pharmacist for OTC if you need anything for the symptoms.",
+            "The pharmacist is the expert in this — they don\'t need an appointment, you can walk in. They\'ll recommend the right thing for what you\'re describing."
+          ]
+        },
+        {
+          kind: 'phrasing_variants',
+          title: 'Phrasing for difficult conversations',
+          variants: [
+            {
+              situation: 'Patient feeling brushed off',
+              scripts: [
+                "I hear it doesn\'t feel like much of an answer. The honest position is — for what you\'re describing, the doctor would say the same thing. There isn\'t a treatment that\'ll speed it up. But what I want to give you is a clear plan for what to do, what to look out for, and when to come back. That matters.",
+                "I\'m not fobbing you off — promise. What you have doesn\'t respond to anything we\'d prescribe. The pharmacist genuinely is the right person if you want to take something for symptoms, and we\'re here if it changes."
+              ]
+            },
+            {
+              situation: 'Patient wants antibiotics',
+              scripts: [
+                "I get it. Antibiotics don\'t work on viral infections — and what you\'ve described is almost certainly viral. Taking them when they won\'t help makes them less effective for the times when we do need them. The pharmacist can recommend something for the symptoms while it runs its course.",
+                "The honest answer is: antibiotics for this would actually do more harm than good. Symptom relief and rest is what\'ll get you through. Pharmacist for the OTC side."
+              ]
+            },
+            {
+              situation: 'Patient is worried about cost of OTC',
+              scripts: [
+                "If cost is a concern, mention that to the pharmacist — they can point you to cheaper own-brand versions, or sometimes basics aren\'t very expensive (paracetamol is often under £1).",
+                "If you\'re on certain benefits or have a medical exemption, you may be entitled to free prescriptions — worth checking. Our pharmacy team can advise."
+              ]
+            }
+          ]
+        },
+        {
+          kind: 'misroutes',
+          title: 'Common self-care misroutes',
+          items: [
+            { title: '1. Self-care offered where Pharmacy First would apply', body: 'Always check Pharmacy First eligibility first. If the condition is on the seven, with eligibility met, Pharmacy First is the better route.' },
+            { title: '2. Self-care offered without checking red flags', body: 'Cough alone is self-care; cough with blood is not. Always run through red-flag features before settling on self-care.' },
+            { title: '3. Phrasing that lands as dismissal', body: 'The most common self-care misroute is communication, not clinical. Frame the route, give a clear plan, give a safety-net.' },
+            { title: '4. Self-care for immunocompromised or vulnerable patients', body: 'Self-care thresholds are lower for these patients. Lower acuity may still warrant clinical assessment.' },
+            { title: '5. Sending to "the pharmacy" without distinction', body: 'Be clear with the patient: this is over-the-counter advice, not the Pharmacy First service. Different things.' }
+          ]
+        },
+        {
+          kind: 'when_not_to_use',
+          title: 'When self-care is NOT the right route',
+          content: `<ul>
+<li><strong>Red-flag features</strong> — appropriate clinical escalation.</li>
+<li><strong>Immunocompromised, vulnerable, or very young/very old patients</strong> with new acute illness — lower threshold for clinical assessment.</li>
+<li><strong>Symptoms not settling in expected timeframe</strong> — needs review.</li>
+<li><strong>Pharmacy First-eligible conditions</strong> — Pharmacy First is faster and more targeted than generic self-care.</li>
+</ul>`
+        },
+        {
+          kind: 'safety_net',
+          title: 'Safety-netting',
+          content: `<p>The safety-net for self-care matters as much as for any other route — possibly more, because the patient is managing themselves at home.</p>
+<ul>
+<li><strong>Specific worsening criteria</strong> — what does "worse" look like for their condition. Be specific rather than generic.</li>
+<li><strong>Time-bound expectations</strong> — how long should this take to settle. "Most colds take 1–2 weeks" gives a tangible benchmark.</li>
+<li><strong>When to come back</strong> — clear trigger to ring us again. Not vague "if it gets worse".</li>
+<li><strong>What to do out of hours</strong> — 111 if needed.</li>
+<li><strong>Reassurance that the door is open</strong> — they can change their mind and ring back without explanation.</li>
+</ul>`
+        }
+      ],
+      see_also: [
+        { route: 'pharmacy_first', reason: 'For the seven Pharmacy First conditions — different and more targeted than generic self-care.' },
+        { route: 'gp_appointments', reason: 'If symptoms don\'t settle or worsen.' },
+        { route: 'nhs_111', reason: 'Out-of-hours, if needed.' }
+      ],
+      governance: { last_reviewed: '2026-05', maintainer: 'Emma Woodbridge (Practice Manager)', notes: 'The communication framing for self-care is worth specifically training new navigators on.' }
     }
   };
 
@@ -15961,22 +17569,9 @@ Suicide attempt in progress. Patient has taken an overdose or self-harmed in a w
      These appear in the hub but route detail pages don't exist yet.
      They'll be filled in Phase 2. */
   const ROUTE_STUBS = {
-    pa:              { name: 'Physician Associate', tone: 'team', group: 'in_house', blurb: 'Adijat Agbontaen, Megan Lowe. Acute illness, chronic review, minor procedures.' },
-    practice_nurse:  { name: 'Practice Nurse', tone: 'team', group: 'in_house', blurb: 'Chronic disease reviews, wound care, immunisations. Not for new acute illness.' },
-    hca:             { name: 'HCA', tone: 'team',    group: 'in_house',         blurb: 'Blood tests, BP, ECGs, NHS Health Checks. Always after a clinician\'s decision.' },
-    in_house_pharm:  { name: 'In-house Pharmacy team', tone: 'team', group: 'in_house', blurb: 'Jaspreet, Pinali, Farah. Medication queries, reviews, repeats.' },
-    secretary:       { name: 'Practice secretary', tone: 'team', group: 'in_house', blurb: 'Anita, Pauline. Referral chases, correspondence. Mornings only.' },
     duty_gp:         { name: 'Duty GP — today', tone: 'duty', group: 'gp', alias_of: 'gp_appointments', blurb: 'Same-day clinical assessment. The right route for red-flag presentations and acute deterioration.', hide_in_hub: true },
     urgent_gp:       { name: 'Urgent GP — within days', tone: 'duty', group: 'gp', alias_of: 'gp_appointments', blurb: 'Within a few days. For things that need a GP but not same-day.', hide_in_hub: true },
-    routine_gp:      { name: 'Routine GP', tone: 'team', group: 'gp', alias_of: 'gp_appointments', blurb: 'Standard appointment. Fit notes over 7 days, complex undifferentiated work, ongoing conditions.', hide_in_hub: true },
-    talking_ther:    { name: 'Talking Therapies', tone: 'service', group: 'external', blurb: 'NHS Bucks Talking Therapies. Adults, anxiety/depression, self-referral, faster than GP.' },
-    camhs_spa:       { name: 'CAMHS SPA', tone: 'service', group: 'external',      blurb: 'Children & young people 5–18. They never turn a young person away.' },
-    msk_selfref:     { name: 'MSK self-referral', tone: 'service', group: 'external', blurb: 'Adult 16+ MSK via StayWell BOB. Parallel to in-house FCP.' },
-    be_healthy:      { name: 'Be Healthy Bucks', tone: 'service', group: 'external', blurb: 'Smoking, weight, alcohol, NHS Health Checks. Self-sign-up online.' },
-    nhs_111:         { name: 'NHS 111', tone: 'duty', group: 'urgent',             blurb: 'Out-of-hours, urgent advice, MH crisis (option 2).' },
-    maternity_triage:{ name: 'Maternity triage', tone: 'crisis', group: 'urgent',  blurb: 'Reduced fetal movements, pregnancy bleeding. Direct to maternity unit, not GP.' },
-    mh_safeguard:    { name: 'Safeguarding lead', tone: 'safe',   group: 'urgent', blurb: 'Practice safeguarding lead. Recognise, record, report — never investigate.' },
-    self_care:       { name: 'Self-care + pharmacy OTC', tone: 'service', group: 'self', blurb: 'Most coughs, colds, hayfever, minor injuries. Pharmacist for OTC advice.' }
+    routine_gp:      { name: 'Routine GP', tone: 'team', group: 'gp', alias_of: 'gp_appointments', blurb: 'Standard appointment. Fit notes over 7 days, complex undifferentiated work, ongoing conditions.', hide_in_hub: true }
   };
 
   /* ─── ROUTE GROUPS for the hub layout ─── */
@@ -16352,8 +17947,7 @@ svg[stroke="currentColor"] { stroke-linecap: round; stroke-linejoin: round; }
 .quick-strip-label { color: var(--text-faint); }
 
 /* ── Theme toggle ──────────────────────────────────────── */
-.theme-toggle {
-  margin-left: auto;
+.theme-toggle, .help-button {
   display: inline-grid;
   place-items: center;
   width: 38px; height: 38px;
@@ -16364,8 +17958,16 @@ svg[stroke="currentColor"] { stroke-linecap: round; stroke-linejoin: round; }
   cursor: pointer;
   transition: all var(--dur) var(--ease);
   flex-shrink: 0;
+  padding: 0;
+  font-family: inherit;
 }
-.theme-toggle:hover { color: var(--primary); border-color: var(--border-strong); background: var(--raised); }
+.theme-toggle { margin-left: auto; }
+.help-button { margin-left: 0; }
+.theme-toggle:hover, .help-button:hover {
+  color: var(--primary);
+  border-color: var(--border-strong);
+  background: var(--raised);
+}
 .theme-toggle .ic-sun { display: none; }
 .theme-toggle .ic-moon { display: block; }
 html[data-theme="dark"] .theme-toggle .ic-moon { display: none; }
@@ -16429,5 +18031,470 @@ function toggleTheme() {
 }
 </script>
 <!-- ══════════════════ V8 END ══════════════════ -->
+
+  <!-- ══════════════════ ONBOARDING ══════════════════ -->
+<!-- ══════════════════ ONBOARDING / HELP MODAL ══════════════════ -->
+<div class="onboarding-modal" id="onboardingModal" onclick="if(event.target===this) window.__onboarding.close()" aria-hidden="true" role="dialog" aria-labelledby="onboardingTitle">
+  <div class="onboarding-panel">
+    <div class="onboarding-head">
+      <div class="onboarding-head-text">
+        <h2 id="onboardingTitle">What is Pathfinder?</h2>
+        <p class="onboarding-subtitle">A Care Navigator support tool for Denham &amp; Aysgarth Medical Centre. Orientation, not a manual.</p>
+      </div>
+      <button class="onboarding-close" onclick="window.__onboarding.close()" aria-label="Close">×</button>
+    </div>
+
+    <div class="onboarding-body">
+
+      <!-- Section 1: What it is -->
+      <section class="onboarding-section">
+        <div class="onboarding-section-label">What it is</div>
+        <p>Pathfinder is a <strong>staff tool</strong> — a knowledgeable colleague who can help Care Navigators identify the most appropriate route for a patient call. It supports your decision-making. It does not replace it.</p>
+        <p>Three things Pathfinder isn't, worth saying clearly:</p>
+        <ul class="onboarding-list">
+          <li><strong>It does not speak to patients directly.</strong> You speak to patients. Pathfinder supports the navigator on the call.</li>
+          <li><strong>It does not diagnose.</strong> Clinical decisions belong to clinicians. Pathfinder helps you reach the right clinician, faster.</li>
+          <li><strong>It does not override practice protocols.</strong> If Denham handles something a specific way, that takes priority.</li>
+        </ul>
+      </section>
+
+      <!-- Section 2: The four rules -->
+      <section class="onboarding-section">
+        <div class="onboarding-section-label">The four rules Pathfinder operates by</div>
+        <div class="onboarding-rules">
+          <div class="onboarding-rule">
+            <div class="onboarding-rule-num">1</div>
+            <div class="onboarding-rule-body">
+              <strong>Support, never replace.</strong> Pathfinder assists; it does not diagnose, override protocols, or substitute for clinical judgement. When in doubt — escalate to a clinician.
+            </div>
+          </div>
+          <div class="onboarding-rule">
+            <div class="onboarding-rule-num">2</div>
+            <div class="onboarding-rule-body">
+              <strong>Empower the patient through the navigator.</strong> A GP appointment is one option among many. Pharmacy First, self-referral, social prescribing, self-care — all empower patients to access the right care faster.
+            </div>
+          </div>
+          <div class="onboarding-rule">
+            <div class="onboarding-rule-num">3</div>
+            <div class="onboarding-rule-body">
+              <strong>Local first.</strong> Suggestions are grounded in what's actually available to Denham patients — this practice, this PCN, this area. Generic NHS guidance comes second to local knowledge.
+            </div>
+          </div>
+          <div class="onboarding-rule">
+            <div class="onboarding-rule-num">4</div>
+            <div class="onboarding-rule-body">
+              <strong>Governed by the practice.</strong> Emma (Practice Manager) maintains the rule set, the route content, and the scope. If you spot something wrong — flag it in the walker, or tell Emma.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Where to start -->
+      <section class="onboarding-section">
+        <div class="onboarding-section-label">Where to start</div>
+        <p>Pathfinder has grown a few different tools. Honest order of importance:</p>
+        <div class="onboarding-tools">
+          <button class="onboarding-tool primary" onclick="window.__onboarding.goto('walk')">
+            <div class="onboarding-tool-name">Walk a call</div>
+            <div class="onboarding-tool-desc">The centrepiece. Step through a patient call signal-by-signal. The engine narrows to the right route as you go. Use this in real time, on a call.</div>
+            <span class="onboarding-tool-tag">start here</span>
+          </button>
+
+          <button class="onboarding-tool" onclick="window.__onboarding.goto('routes')">
+            <div class="onboarding-tool-name">All routes</div>
+            <div class="onboarding-tool-desc">Reference. Every route a Care Navigator can use at Denham — Pharmacy First, GP appointments, FCP, Social Prescriber, Talking Therapies, the lot. With navigator phrasing, common misroutes, and what each one is actually for.</div>
+          </button>
+
+          <button class="onboarding-tool" onclick="window.__onboarding.goto('library')">
+            <div class="onboarding-tool-name">Library</div>
+            <div class="onboarding-tool-desc">Background reading. The principles, the cascade, the misroute patterns, the difficult-conversation library. Useful when you have time to read; not designed for mid-call use.</div>
+          </button>
+
+          <button class="onboarding-tool" onclick="window.__onboarding.goto('team')">
+            <div class="onboarding-tool-name">Denham team &amp; Local services</div>
+            <div class="onboarding-tool-desc">Directories. Quick reference for who does what at the practice, and what local services exist. Each links into the full route page where there is one.</div>
+          </button>
+
+          <button class="onboarding-tool" onclick="window.__onboarding.goto('records')">
+            <div class="onboarding-tool-name">Call records</div>
+            <div class="onboarding-tool-desc">EMIS-paste-ready summaries auto-saved from your walks. Editable. Stays on your device. No patient-identifiable detail is generated automatically — you add that when you paste.</div>
+          </button>
+        </div>
+        <p class="onboarding-aside"><em>Symptom basket and Training canvas are marked <strong>WIP</strong> — usable but under development. Not the place to start.</em></p>
+      </section>
+
+      <!-- Section 4: Key things to know -->
+      <section class="onboarding-section">
+        <div class="onboarding-section-label">Things worth knowing</div>
+        <ul class="onboarding-list">
+          <li><strong>The right care, right person, right time.</strong> That's the motto. Sometimes that's a GP. Often it isn't.</li>
+          <li><strong>Red flags hard-stop the walker.</strong> If a 999-level signal is added, the tool jumps you straight to the recommendation. Don't keep gathering signals when escalation is clear.</li>
+          <li><strong>Adjacents matter.</strong> Many calls have two layers — the medical surface and the social underneath. The walker surfaces both. Offering the adjacent is often where the real care happens.</li>
+          <li><strong>Nothing leaves your device.</strong> Pathfinder doesn't store patient details. Call Records are local to your browser. EMIS notes are generated without patient identifiers — you add those when you paste.</li>
+          <li><strong>You can flag the engine.</strong> If a walk produced the wrong recommendation, mark it with the flag button. Emma reviews flagged walks — that's how the rules improve.</li>
+        </ul>
+      </section>
+
+      <!-- Footer -->
+      <div class="onboarding-footer">
+        <p class="onboarding-footer-text">You can reopen this anytime via the <strong>?</strong> button in the topbar.</p>
+        <button class="onboarding-action primary" onclick="window.__onboarding.close()">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ══════════════════ ONBOARDING MODAL ══════════════════ */
+.onboarding-modal {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--text) 55%, transparent);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+.onboarding-modal.active { display: flex; }
+
+.onboarding-panel {
+  background: var(--surface);
+  border-radius: 18px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px color-mix(in srgb, var(--text) 30%, transparent);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.onboarding-head {
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--surface);
+}
+.onboarding-head-text { flex: 1; min-width: 0; }
+.onboarding-head h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.onboarding-subtitle {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.55;
+}
+.onboarding-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  flex-shrink: 0;
+  font-family: inherit;
+  transition: all var(--dur) var(--ease);
+}
+.onboarding-close:hover {
+  background: var(--raised);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.onboarding-body {
+  padding: 22px 28px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.onboarding-section {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+}
+.onboarding-section:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+.onboarding-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 12px;
+}
+.onboarding-section p {
+  font-size: 14.5px;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+.onboarding-section p strong { color: var(--text); font-weight: 600; }
+.onboarding-section p:last-child { margin-bottom: 0; }
+
+.onboarding-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.onboarding-list li {
+  position: relative;
+  padding-left: 18px;
+  padding-bottom: 8px;
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+.onboarding-list li::before {
+  content: "·";
+  position: absolute;
+  left: 6px;
+  color: var(--primary);
+  font-weight: 700;
+}
+.onboarding-list li strong { color: var(--text); font-weight: 600; }
+
+.onboarding-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.onboarding-rule {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  background: var(--app-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.onboarding-rule-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--surface);
+  font-weight: 700;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.onboarding-rule-body {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+.onboarding-rule-body strong { color: var(--text); font-weight: 600; }
+
+.onboarding-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.onboarding-tool {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--app-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all var(--dur) var(--ease);
+}
+.onboarding-tool:hover {
+  border-color: var(--primary);
+  background: var(--surface);
+  transform: translateY(-1px);
+}
+.onboarding-tool.primary {
+  border-left: 3px solid var(--primary);
+}
+.onboarding-tool-name {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--text);
+  margin-bottom: 3px;
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+.onboarding-tool-desc {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+.onboarding-tool-tag {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  background: var(--primary);
+  color: var(--surface);
+  border-radius: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.onboarding-aside {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.onboarding-aside em { font-style: italic; }
+.onboarding-aside strong { color: var(--text-soft); }
+
+.onboarding-footer {
+  position: sticky;
+  bottom: 0;
+  margin: 22px -28px 0;
+  padding: 16px 28px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.onboarding-footer-text {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.onboarding-footer-text strong {
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 1px 7px;
+  background: var(--app-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+}
+.onboarding-action {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 22px;
+  border-radius: 22px;
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: var(--surface);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+.onboarding-action:hover {
+  background: var(--primary-dark, var(--primary));
+  border-color: var(--primary-dark, var(--primary));
+}
+
+/* Help button — uses .help-button class already styled with .theme-toggle */
+@media (max-width: 700px) {
+  .onboarding-panel {
+    max-width: 100%;
+    max-height: 96vh;
+    border-radius: 12px;
+  }
+  .onboarding-head, .onboarding-body { padding-left: 18px; padding-right: 18px; }
+  .onboarding-footer { margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+  .onboarding-head h2 { font-size: 20px; }
+}
+</style>
+
+<script>
+/* ══════════════════ ONBOARDING LOGIC ══════════════════ */
+(function() {
+  'use strict';
+
+  const SEEN_KEY = 'pathfinder-onboarding-seen-v1';
+
+  function hasSeenOnboarding() {
+    try { return localStorage.getItem(SEEN_KEY) === '1'; }
+    catch { return false; }
+  }
+
+  function markSeen() {
+    try { localStorage.setItem(SEEN_KEY, '1'); }
+    catch {}
+  }
+
+  function open() {
+    const modal = document.getElementById('onboardingModal');
+    if (!modal) return;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    markSeen();
+    // Reset scroll
+    const body = modal.querySelector('.onboarding-body');
+    if (body) body.scrollTop = 0;
+  }
+
+  function close() {
+    const modal = document.getElementById('onboardingModal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function goto(viewKey) {
+    close();
+    if (typeof showView === 'function') {
+      // Small delay to let the modal animation complete
+      setTimeout(() => showView(viewKey), 80);
+    }
+  }
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('onboardingModal');
+      if (modal && modal.classList.contains('active')) {
+        close();
+      }
+    }
+  });
+
+  // Auto-show on first launch (defer to next tick so the page renders first)
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      if (!hasSeenOnboarding()) {
+        open();
+      }
+    }, 400);
+  });
+
+  // Expose
+  window.__onboarding = { open, close, goto, hasSeenOnboarding, markSeen };
+})();
+</script>
+
+  <!-- ══════════════════ ONBOARDING END ══════════════════ -->
 </body>
 </html>
