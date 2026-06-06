@@ -21409,45 +21409,6 @@ function toggleTheme() {
       answer: "<strong>They never turn a young person away.</strong> Every referral is acknowledged and triaged. CAMHS decides threshold, not the navigator. If a family is worried, refer.",
       tags: ['paediatric'], related_route: 'camhs_spa'
     },
-
-    /* ════ DECK: signal_vocab ════ */
-    {
-      id: 'sv_cauda_equina_signal', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_cauda_equina</code>",
-      answer: "<strong>Saddle numbness + bladder/bowel change + bilateral leg weakness.</strong> Hard-stop signal — takes any back pain call out of MSK and to 999.",
-      tags: ['signal','red_flag','msk'], related_route: '999'
-    },
-    {
-      id: 'sv_mh_plan_intent', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_mh_plan_intent</code>",
-      answer: "<strong>Active suicidal thoughts with plan and means.</strong> Hard-stop signal — escalates to 999 or duty GP same-call. Stay on the line with the caller.",
-      tags: ['signal','mental_health','red_flag'], related_route: 'mh_crisis'
-    },
-    {
-      id: 'sv_under_3m', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>a_under_3m</code>",
-      answer: "<strong>Baby under 3 months.</strong> Triggers the under-3-month rule: any fever, any unexplained symptom — duty GP today, non-negotiable.",
-      tags: ['signal','age','paediatric'], related_route: 'gp_appointments'
-    },
-    {
-      id: 'sv_carer_struggling', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_caller_struggling</code>",
-      answer: "<strong>The caller themselves is showing distress.</strong> Triggers the two-person call pattern — adjacent route to Social Prescriber (Hanna) for the caller, separate from the patient's route.",
-      tags: ['signal','context','social'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_bereaved', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_bereaved_mentioned</code>",
-      answer: "<strong>Patient or caller has mentioned a recent bereavement.</strong> Strong context signal for Social Prescriber as an adjacent — often the real story underneath a thin medical surface.",
-      tags: ['signal','context','social'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_immunocompromised', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_immunocompromised</code>",
-      answer: "<strong>Patient is immunocompromised</strong> (methotrexate, biologics, chemo, transplant meds, etc.). Excludes ALL Pharmacy First conditions. Lower threshold for clinical escalation generally.",
-      tags: ['signal','context','exclusion'], related_route: null
-    },
-
     /* ════════ EXPANDED CARDS — CHECKPOINT 3 ════════ */
 
     /* ════ DECK: pharmacy_first — expansion ════ */
@@ -21972,136 +21933,7 @@ function toggleTheme() {
       answer: "<strong>Wycombe Hospital — Bucks Maternity.</strong> Patients are given the triage number at booking. Direct phone — bypasses GP.",
       tags: ['maternity'], related_route: 'maternity_triage'
     },
-
-    /* ════ DECK: signal_vocab — expansion ════ */
-    {
-      id: 'sv_chest_pain', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_chest_pain</code>",
-      answer: "<strong>Chest pain</strong> — particularly with autonomic features (sweating, nausea, radiation). Hard-stop signal — escalates to 999.",
-      tags: ['signal','red_flag'], related_route: '999'
-    },
-    {
-      id: 'sv_stroke', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_stroke</code>",
-      answer: "<strong>FAST-positive stroke symptoms</strong> — facial droop, arm weakness, speech difficulty. Hard-stop — 999. Note time of onset precisely.",
-      tags: ['signal','red_flag'], related_route: '999'
-    },
-    {
-      id: 'sv_meningitis', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_meningitis</code>",
-      answer: "<strong>Non-blanching rash with fever / stiff neck / unwell.</strong> Possible meningococcal disease. Hard-stop — 999. Time-critical.",
-      tags: ['signal','red_flag','paediatric'], related_route: '999'
-    },
-    {
-      id: 'sv_rfm', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_reduced_fm</code>",
-      answer: "<strong>Reduced fetal movements in pregnancy.</strong> Hard-stop — same-day maternity triage. Non-negotiable.",
-      tags: ['signal','red_flag','pregnancy'], related_route: 'maternity_triage'
-    },
-    {
-      id: 'sv_pregnant_bleed', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_pregnant_bleed</code>",
-      answer: "<strong>Bleeding in pregnancy.</strong> Maternity triage same-day, or 999 if severe. Maternity has the scanning equipment.",
-      tags: ['signal','red_flag','pregnancy'], related_route: 'maternity_triage'
-    },
-    {
-      id: 'sv_anaphylaxis', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_anaphylaxis</code>",
-      answer: "<strong>Face/throat swelling with breathing change after exposure.</strong> Hard-stop — 999. Stay on the line.",
-      tags: ['signal','red_flag'], related_route: '999'
-    },
-    {
-      id: 'sv_baby_fever', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_baby_fever</code>",
-      answer: "<strong>Any fever in a baby under 3 months.</strong> Hard-stop — duty GP today, non-negotiable. Combined with <code>a_under_3m</code> in the engine.",
-      tags: ['signal','red_flag','paediatric'], related_route: 'gp_appointments'
-    },
-    {
-      id: 'sv_safeguard', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_safeguard</code>",
-      answer: "<strong>Safeguarding concern identified during call.</strong> Triggers safeguarding route alongside whatever clinical route the patient needs. Helena Roome is the practice lead.",
-      tags: ['signal','red_flag','safeguarding'], related_route: 'mh_safeguard'
-    },
-    {
-      id: 'sv_dv', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>r_dv_concern</code>",
-      answer: "<strong>Domestic abuse concern.</strong> Signs include voice change when partner mentioned, hurried answers, restricted callback options. Safeguarding route + careful handling on the call (partner may be listening).",
-      tags: ['signal','safeguarding','domestic_abuse'], related_route: 'mh_safeguard'
-    },
-    {
-      id: 'sv_mh_thoughts', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_mh_thoughts</code>",
-      answer: "<strong>Thoughts of self-harm without specific plan or intent.</strong> Middle rung of the MH acuity ladder. Same-day duty GP, or 111 option 2 for crisis line. Not Talking Therapies (waitlist).",
-      tags: ['signal','mental_health'], related_route: 'mh_crisis'
-    },
-    {
-      id: 'sv_mh_anxious', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_mh_anxious</code>",
-      answer: "<strong>Non-crisis anxiety.</strong> Adult: Talking Therapies (self-referral). Under-18: CAMHS SPA. Not a crisis-level signal.",
-      tags: ['signal','mental_health'], related_route: 'talking_ther'
-    },
-    {
-      id: 'sv_lonely', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_lonely_mentioned</code>",
-      answer: "<strong>Loneliness or isolation mentioned in the call.</strong> Strong context signal for Social Prescriber as an adjacent. Particularly powerful combined with <code>x_bereaved_mentioned</code> or <code>x_frequent_caller</code>.",
-      tags: ['signal','context','social'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_money', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_money_worries</code>",
-      answer: "<strong>Financial difficulty mentioned.</strong> Social Prescriber adjacent — Hanna can connect to financial advice, food bank, benefits help. Not Be Healthy Bucks (that's lifestyle, not financial).",
-      tags: ['signal','context','social'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_carer_role', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_carer_role_explicit</code>",
-      answer: "<strong>Caller explicitly mentions being a carer.</strong> Triggers two-person call pattern combined with <code>x_caller_struggling</code> — Social Prescriber adjacent for the caller, alongside the patient's route.",
-      tags: ['signal','context','carer'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_frequent', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_frequent_caller</code>",
-      answer: "<strong>This patient has called multiple times recently.</strong> Strong signal that the surface complaints may not be the real story. Social Prescriber often the right route when medical content is thin.",
-      tags: ['signal','context','pattern'], related_route: 'social_pres'
-    },
-    {
-      id: 'sv_pregnant', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_pregnant</code>",
-      answer: "<strong>Patient is pregnant.</strong> Changes routing for many presentations — UTI excludes from Pharmacy First, abdominal pain has lower threshold for clinical escalation, etc. Maternity triage takes precedence for many concerns.",
-      tags: ['signal','context','pregnancy'], related_route: 'maternity_triage'
-    },
-    {
-      id: 'sv_known_diabetic', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>x_known_diabetic</code>",
-      answer: "<strong>Patient has known diabetes.</strong> Changes thresholds — foot wounds, infections, illness severity all considered with lower threshold for escalation. Annual review with Elna Taylor.",
-      tags: ['signal','context','chronic'], related_route: 'practice_nurse'
-    },
-    {
-      id: 'sv_cant_swallow', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_cant_swallow</code>",
-      answer: "<strong>Patient can't swallow even their own saliva.</strong> Combined with sore throat — possible airway emergency (epiglottitis, abscess). Hard-stop — 999.",
-      tags: ['signal','red_flag','airway'], related_route: '999'
-    },
-    {
-      id: 'sv_breathing_diff', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_breathing_diff</code>",
-      answer: "<strong>Breathing difficulty — significant.</strong> Severity matters: can't complete sentences or struggling for air = 999. Manageable breathlessness in stable patient = ANP/duty.",
-      tags: ['signal','breathing'], related_route: '999'
-    },
-    {
-      id: 'sv_spreading_red', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_spreading_red</code>",
-      answer: "<strong>Spreading redness</strong> — usually from an infection. Tips presentations out of Pharmacy First and into duty GP territory because of cellulitis risk.",
-      tags: ['signal','infection'], related_route: 'gp_appointments'
-    },
-    {
-      id: 'sv_systemic', deck: 'signal_vocab', type: 'signal_action',
-      prompt: "<code>m_systemically_unwell</code>",
-      answer: "<strong>Patient is systemically unwell</strong> — fever, malaise, can't function. Raises acuity. Self-limiting becomes clinical; clinical becomes urgent.",
-      tags: ['signal','severity'], related_route: 'gp_appointments'
-    }
-
-  ];
+    ];
 
   /* Deck registry */
   const DECKS = {
@@ -22124,12 +21956,8 @@ function toggleTheme() {
     local_services: {
       label: 'Local services',
       sub: 'Numbers, eligibility, founding principles'
-    },
-    signal_vocab: {
-      label: 'Signal vocabulary',
-      sub: 'The codes the walker uses, what they mean'
     }
-  };
+  };;
 
   /* ══════════════════════════════════════════════════════════════
      STORAGE — load and persist user SRS state
@@ -23145,6 +22973,10 @@ function toggleTheme() {
         ${isLeech ? '<span class="fc-card-meta-dot">·</span><span class="fc-card-meta-sticky" title="You\'ve forgotten this card several times — take your time">Sticky</span>' : ''}
       </div>`;
 
+    // Clear any stale MCQ state from the previous card.
+    // For MCQ cards, renderMcqCard below will install fresh state.
+    session.mcqState = null;
+
     if (card.type === 'mcq') {
       html += renderMcqCard(card);
     } else if (card.type === 'cloze') {
@@ -23159,7 +22991,6 @@ function toggleTheme() {
     // Hide rating bar until answer is shown
     document.getElementById('fcRatingBar').style.display = 'none';
     session.stage = 'prompt';
-    session.mcqState = null;
 
     // Update rating button interval previews
     updateRatingIntervals(card);
