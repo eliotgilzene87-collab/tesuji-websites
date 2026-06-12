@@ -36521,7 +36521,7 @@ html[data-theme="dark"] {
 /* ── Topbar: translucent, hairline, calm ─────────────────── */
 .topbar {
   background: var(--surface);
-  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
   -webkit-backdrop-filter: saturate(1.5) blur(12px);
   backdrop-filter: saturate(1.5) blur(12px);
   border-bottom: 1px solid var(--border);
@@ -36927,6 +36927,13 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
 .pfn-code:focus-visible, .pfn-tag:focus-visible {
   outline: 2px solid var(--pulse); outline-offset: 1px;
 }
+
+/* ── v2.4.1: anchor targets clear the sticky topbar ────────────
+   jumpToLetter / xref / library jumps use scrollIntoView(start);
+   without scroll-margin the target lands under the fixed topbar.
+   Applies to every current and future in-app anchor; zero layout
+   impact — scroll-margin only affects scroll alignment. */
+.main [id], .main details { scroll-margin-top: 78px; }
 
 /* ════════════════════════════════════════════════════════════
    PATHFINDER v2.1 — call-time instruments
