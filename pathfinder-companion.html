@@ -29989,6 +29989,28 @@ function toggleTheme() {
   opacity: 0.55;
 }
 .rq-route.mastered { border-left: 3px solid var(--sage, #5a8a76); }
+.rq-route-mixed {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--pulse) 8%, var(--surface)), var(--surface));
+  border: 1px solid color-mix(in srgb, var(--pulse) 35%, var(--border));
+  margin-bottom: 18px;
+}
+.rq-route-mixed:hover:not(:disabled) {
+  border-color: var(--pulse);
+}
+.rq-route-mixed .rq-route-title { font-size: 16px; }
+.rq-summary-q-source {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pulse);
+  background: color-mix(in srgb, var(--pulse) 12%, transparent);
+  border-radius: 5px;
+  padding: 2px 8px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 .rq-route.attempted { border-left: 3px solid var(--primary); }
 
 .rq-route-title {
@@ -30089,6 +30111,8 @@ function toggleTheme() {
   const MASTERY_SCORE = 0.80;
   const MASTERY_LOOKBACK = 2;  // attempts considered for "wrong twice in last two"
   const QUIZ_SIZE = 8;          // questions per quiz session
+  const MIXED_KEY = '__mixed__'; // pseudo-route: random questions drawn across every pool
+  const MIXED_SIZE = 10;         // questions per mixed session
 
   /* ══════════════════════════════════════════════════════════════
      QUESTION POOLS — 5 representative routes (C4)
@@ -32325,6 +32349,7 @@ function toggleTheme() {
      questions the user got wrong last time
      ══════════════════════════════════════════════════════════════ */
   function sampleQuestions(routeKey) {
+    if (routeKey === MIXED_KEY) return sampleMixed();
     const pool = POOLS[routeKey];
     if (!pool || pool.length === 0) return [];
     const state = loadState();
@@ -32356,6 +32381,35 @@ function toggleTheme() {
     // Re-shuffle the sample so priority questions aren't always first
     shuffleInPlace(sample);
 
+    return sample;
+  }
+
+  /* MIXED quiz — MIXED_SIZE questions drawn at random across every pool.
+     Honours suppression, and (like single-route quizzes) prefers questions
+     missed on the last mixed attempt so the weak spots resurface. */
+  function sampleMixed() {
+    const state = loadState();
+    const suppressed = state.suppressed || {};
+    const route = state.routes[MIXED_KEY];
+
+    // Flatten every pool into one candidate list, skipping suppressed questions
+    let candidates = [];
+    Object.keys(POOLS).forEach(rk => {
+      POOLS[rk].forEach(q => { if (!suppressed[q.id]) candidates.push(q); });
+    });
+    if (candidates.length === 0) return [];
+
+    let priorityIds = [];
+    if (route && route.attempts && route.attempts.length > 0) {
+      const lastAtt = route.attempts[route.attempts.length - 1];
+      priorityIds = (lastAtt.wrongIds || []).filter(id => candidates.find(q => q.id === id));
+    }
+    const rest = candidates.filter(q => !priorityIds.includes(q.id));
+    shuffleInPlace(rest);
+    const priorityQs = priorityIds.map(id => candidates.find(q => q.id === id)).filter(Boolean);
+    const combined = [...priorityQs, ...rest];
+    const sample = combined.slice(0, MIXED_SIZE);
+    shuffleInPlace(sample);
     return sample;
   }
 
@@ -32466,7 +32520,38 @@ function toggleTheme() {
       </div>
 
       <div class="rq-section-label">Available quizzes</div>
-      <p class="rq-section-sub">Quiz pools cover every route page in the system. Each quiz draws 8 questions from a larger pool, so you'll see different questions each time. Mastery requires consistent performance across attempts.</p>
+      <p class="rq-section-sub">Quiz pools cover every route page in the system. Each quiz draws 8 questions from a larger pool, so you'll see different questions each time. Mastery requires consistent performance across attempts.</p>`;
+
+    // ── MIXED quiz card — randomised across every pool ──
+    {
+      const ms = routeStatus(MIXED_KEY);
+      const msClass = ms.status === 'mastered' ? 'mastered' : ms.status === 'attempted' ? 'attempted' : '';
+      let msScore = '';
+      if (ms.lastScore !== null) {
+        const pct = Math.round(ms.lastScore * 100);
+        const cls = pct >= 80 ? 'high' : pct >= 60 ? 'mid' : 'low';
+        msScore = `<span class="rq-route-score ${cls}">${pct}%</span>`;
+      }
+      let poolTotal = 0;
+      Object.keys(POOLS).forEach(rk => { poolTotal += POOLS[rk].length; });
+      html += `
+      <button class="rq-route rq-route-mixed ${msClass}" onclick="window.__routequiz.start('${MIXED_KEY}')">
+        <div class="rq-route-title">
+          <span class="rq-route-status ${msClass}"></span>
+          🎲 Mixed quiz — all routes
+        </div>
+        <div class="rq-route-sub">A randomised ${MIXED_SIZE}-question quiz pulling from every route's pool at once. The best test of whether the knowledge holds together across the whole cascade.</div>
+        <div class="rq-route-meta">
+          <span>${poolTotal} questions across all pools · ${MIXED_SIZE}/quiz</span>
+          <span>${ms.attempts} attempt${ms.attempts === 1 ? '' : 's'}</span>
+          ${msScore}
+        </div>
+      </button>`;
+    }
+
+    html += `
+      <div class="rq-section-label">By route</div>
+      <p class="rq-section-sub">Focused quizzes on one route at a time. Each draws ${QUIZ_SIZE} questions from a larger pool.</p>
       <details class="rq-mastery-criteria">
         <summary>What does "Mastered" mean?</summary>
         <p>A route is marked <strong>Mastered</strong> when both of these are true on your most recent attempt:</p>
@@ -32555,6 +32640,8 @@ function toggleTheme() {
     POOLS: POOLS,
     QUESTION_INDEX: QUESTION_INDEX,
     QUIZ_SIZE: QUIZ_SIZE,
+    MIXED_KEY: MIXED_KEY,
+    MIXED_SIZE: MIXED_SIZE,
     loadState: loadState,
     saveState: saveState,
     sampleQuestions: sampleQuestions,
@@ -33196,13 +33283,16 @@ function toggleTheme() {
       return;
     }
 
-    const routeName = (window.PF_ROUTE_PAGES && window.PF_ROUTE_PAGES[routeKey] && window.PF_ROUTE_PAGES[routeKey].name)
+    const routeName = routeKey === rq.MIXED_KEY
+      ? 'Mixed — all routes'
+      : (window.PF_ROUTE_PAGES && window.PF_ROUTE_PAGES[routeKey] && window.PF_ROUTE_PAGES[routeKey].name)
                    || (window.PF_ROUTE_STUBS && window.PF_ROUTE_STUBS[routeKey] && window.PF_ROUTE_STUBS[routeKey].name)
                    || routeKey;
 
     session = {
       routeKey,
       routeName,
+      isMixed: routeKey === rq.MIXED_KEY,
       questions,
       index: 0,
       stage: 'pick',
@@ -33435,13 +33525,13 @@ function toggleTheme() {
     let html = `<div class="rq-summary">
       <div class="rq-summary-head">
         <div class="rq-summary-title">${title}</div>
-        <div class="rq-summary-route">${escapeForRq(session.routeName)} quiz</div>
+        <div class="rq-summary-route">${session.isMixed ? 'Mixed quiz — all routes' : escapeForRq(session.routeName) + ' quiz'}</div>
         <div class="rq-summary-score-block">
           <div class="rq-summary-score ${scoreClass}">${scorePct}%</div>
           <div class="rq-summary-score-detail">${correct} of ${total} correct</div>
         </div>
         <div class="rq-summary-line">${line}</div>
-        ${masteredNow ? `<div class="rq-summary-mastered-note">✓ Route mastered</div>` : ''}
+        ${masteredNow ? `<div class="rq-summary-mastered-note">✓ ${session.isMixed ? 'Mixed quiz mastered' : 'Route mastered'}</div>` : ''}
       </div>`;
 
     // Per-question recap — wrong first (where the learning is), then right
@@ -33455,15 +33545,10 @@ function toggleTheme() {
         if (!q) return;
         // Find the correct option text
         const correctOptionText = q.options[0]; // always first in source
-        // Find the user's picked text from session's stored ordering
-        // Since we stored pickedIndex against the shuffled session, but the shuffle is gone,
-        // we approximate: we know it was wrong, so it was anything but option[0]. We can
-        // reconstruct from session.answers if we'd stored it. Let's just say "you picked an
-        // incorrect option" — keeping it honest is better than reconstructing inaccurately.
-        // Actually we can preserve picked text by storing it at pick-time.
         const yourText = a.pickedText || 'a different option';
+        const srcTag = session.isMixed ? `<span class="rq-summary-q-source">${escapeForRq(mixedRouteName(q.route))}</span>` : '';
         html += `<div class="rq-summary-question wrong">
-          <div class="rq-summary-q-prompt">${escapeForRq(q.prompt)}</div>
+          <div class="rq-summary-q-prompt">${srcTag}${escapeForRq(q.prompt)}</div>
           <div class="rq-summary-q-row your-wrong">
             <span class="rq-summary-q-label">You said</span>
             <span class="rq-summary-q-value">${escapeForRq(yourText)}</span>
@@ -33529,6 +33614,13 @@ function toggleTheme() {
 
   function escapeForRq(s) {
     return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[ch]);
+  }
+
+  /* Friendly route name from a question's source route key (used in the mixed summary) */
+  function mixedRouteName(rk) {
+    return (window.PF_ROUTE_PAGES && window.PF_ROUTE_PAGES[rk] && window.PF_ROUTE_PAGES[rk].name)
+        || (window.PF_ROUTE_STUBS && window.PF_ROUTE_STUBS[rk] && window.PF_ROUTE_STUBS[rk].name)
+        || rk;
   }
 
   /* Keyboard shortcuts */
