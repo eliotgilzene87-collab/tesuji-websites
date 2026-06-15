@@ -13572,8 +13572,8 @@ performSearch = function(q) {
     const recent = getRecent();
     if (recent.length) {
       let html = `<div class="search-results-head"><span>Recently viewed</span><button class="search-recent-clear" onclick="event.stopPropagation(); clearRecent();">Clear</button></div>`;
-      recent.forEach(r => {
-        html += `<div class="search-recent-item" onclick="openSidebar('${r.type}', ${JSON.stringify(r.key)})">
+      recent.forEach((r, ri) => {
+        html += `<div class="search-recent-item" onclick="var rr=getRecent()[${ri}]; if(rr) openSidebar(rr.type, rr.key)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span class="ttl">${escapeHtml(r.title)}</span>
           <span class="badge">${escapeHtml(r.badge)}</span>
@@ -36935,6 +36935,31 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
    impact — scroll-margin only affects scroll alignment. */
 .main [id], .main details { scroll-margin-top: 78px; }
 
+/* ── v2.4.2: back button ──────────────────────────────────── */
+.pfv2-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 700 12px var(--font-sans);
+  color: var(--text-soft);
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 13px 7px 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.pfv2-back:hover { border-color: var(--pulse); color: var(--pulse); }
+@media (max-width: 700px) {
+  /* small screens: floats bottom-left, clear of the bottom nav */
+  .pfv2-back {
+    position: fixed; left: 14px; bottom: 86px; z-index: 120;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+    padding: 9px 15px 9px 12px;
+  }
+}
+
 /* ════════════════════════════════════════════════════════════
    PATHFINDER v2.1 — call-time instruments
    ════════════════════════════════════════════════════════════ */
@@ -37619,12 +37644,55 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
 
   /* ── hook showView (same wrapping convention v1 already
         uses for performSearch) ──────────────────────────────── */
+  /* ── navigation history + back ──────────────────────────── */
+  var navStack = [];
+  var lastShown = null;
+  var backNav = false;
+  function goBack() {
+    if (!navStack.length) return;
+    var prev = navStack.pop();
+    backNav = true;
+    try { window.showView(prev); } finally { backNav = false; }
+    updateBackBtn();
+  }
+  function updateBackBtn() {
+    var btn = document.getElementById('pfv2Back');
+    if (!btn) return;
+    btn.style.display = navStack.length ? 'inline-flex' : 'none';
+    if (navStack.length) {
+      var prev = navStack[navStack.length - 1];
+      btn.title = 'Back to ' + viewLabel(prev) + ' (Alt + \u2190)';
+      btn.setAttribute('aria-label', 'Back to ' + viewLabel(prev));
+    }
+  }
+  function buildBackBtn() {
+    var brand = document.querySelector('.topbar .brand');
+    if (!brand || document.getElementById('pfv2Back')) return;
+    var btn = document.createElement('button');
+    btn.id = 'pfv2Back';
+    btn.className = 'pfv2-back';
+    btn.type = 'button';
+    btn.style.display = 'none';
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span class="pfv2-back-label">Back</span>';
+    btn.addEventListener('click', goBack);
+    brand.insertAdjacentElement('afterend', btn);
+    document.addEventListener('keydown', function (ev) {
+      if (ev.altKey && ev.key === 'ArrowLeft') { ev.preventDefault(); goBack(); }
+    });
+  }
+
   function hookShowView() {
     if (typeof window.showView !== 'function') return;
     var orig = window.showView;
     window.showView = function (name) {
       orig.apply(this, arguments);
       try {
+        if (!backNav && lastShown && name && lastShown !== name) {
+          navStack.push(lastShown);
+          if (navStack.length > 50) navStack.shift();
+        }
+        if (name) lastShown = name;
+        updateBackBtn();
         recordView(name);
         injectRail(name);
         // Route pages render dynamically into #view-route-detail after
@@ -37642,6 +37710,9 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
   document.addEventListener('DOMContentLoaded', function () {
     try {
       buildPalette();
+      buildBackBtn();
+      lastShown = lastShown || (document.querySelector('.view.active') || {}).id;
+      if (lastShown && lastShown.indexOf('view-') === 0) lastShown = lastShown.slice(5);
       renderHome();
       // refresh home stats whenever any tool saves progress in another tab
       window.addEventListener('storage', function () {
@@ -37651,7 +37722,7 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
     } catch (e) { console.warn('pfv2 boot:', e); }
   });
 
-  window.__pfv2 = { stats: stats, renderHome: renderHome, openPalette: palOpen };
+  window.__pfv2 = { stats: stats, renderHome: renderHome, openPalette: palOpen, back: goBack };
 })();
 
 /* ════════════════════════════════════════════════════════════════
@@ -37920,7 +37991,10 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
 
   // Views worth annotating: static reference content. Tool views that
   // re-render constantly are left alone.
-  var TERM_VIEWS = ['quickref', 'redflags', 'cascade', 'misroutes', 'services', 'team', 'taskcards', 'popreport', 'route-detail'];
+  var TERM_VIEWS = ['quickref', 'redflags', 'cascade', 'misroutes', 'services', 'team', 'taskcards', 'popreport', 'route-detail',
+                    'routequiz', 'walk', 'basket',
+                    'rqSession'];                      // the quiz modal overlay itself
+  var DYNAMIC_TERM_VIEWS = ['routequiz', 'walk', 'basket', 'rqSession'];
   var SKIP_TAGS = { A: 1, BUTTON: 1, SCRIPT: 1, STYLE: 1, INPUT: 1, TEXTAREA: 1, SELECT: 1, CODE: 1, PRE: 1, KBD: 1, SUMMARY: 1, H1: 1, SVG: 1, LABEL: 1 };
   var MAX_PER_TERM = 2, MAX_PER_VIEW = 70;
 
@@ -37958,7 +38032,7 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
     if (TERM_VIEWS.indexOf(viewName) === -1) return;
     buildIndex();
     if (!ciRe && !csRe) return;
-    var sec = document.getElementById('view-' + viewName);
+    var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
     if (!sec) return;
     if (viewName !== 'route-detail' && sec.dataset.pfv2Termed === '1') return;
 
@@ -38035,16 +38109,82 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
     if (el) showTip(el); else hideTip();
   });
   document.addEventListener('scroll', hideTip, true);
+  var quizParked = false;
+  function parkQuizSession() {
+    var s = document.getElementById('rqSession');
+    if (s && s.classList.contains('active')) {
+      s.classList.remove('active');
+      s.setAttribute('aria-hidden', 'true');
+      quizParked = true;
+    }
+  }
+  function restoreQuizSession() {
+    if (!quizParked) return;
+    quizParked = false;
+    var s = document.getElementById('rqSession');
+    if (s) {
+      s.classList.add('active');
+      s.setAttribute('aria-hidden', 'false');
+    }
+  }
   document.addEventListener('click', function (e) {
     var el = e.target.closest && e.target.closest('.pfv2-term');
     if (!el) return;
     hideTip();
+    // mid-quiz: park the session (state intact), look the term up,
+    // and the Back button restores the question exactly as it was
+    if (el.closest('#rqSession')) parkQuizSession();
     var id = el.getAttribute('data-gid');
     if (window.__glossary && window.__glossary.openEntry) window.__glossary.openEntry(id);
     else if (window.showView) window.showView('glossary');
   });
+  // restore on any return to the quiz view (Back button or nav)
+  (function () {
+    function hook() {
+      if (typeof window.showView !== 'function') return;
+      var orig = window.showView;
+      window.showView = function (name) {
+        orig.apply(this, arguments);
+        if (name === 'routequiz') { try { restoreQuizSession(); } catch (e) {} }
+      };
+    }
+    hook();
+  })();
 
-  window.__pfv2Terms = { termify: termify };
+  /* practice views re-render per question — watch and re-wrap.
+     Guarded so our own wrapping never re-triggers the observer. */
+  var retermifying = false;
+  function retermify(viewName) {
+    var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
+    if (!sec) return;
+    retermifying = true;
+    try {
+      delete sec.dataset.pfv2Termed;
+      termify(viewName);
+    } catch (e) {}
+    setTimeout(function () { retermifying = false; }, 60);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    DYNAMIC_TERM_VIEWS.forEach(function (viewName) {
+      var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
+      if (!sec) return;
+      var timer = null;
+      new MutationObserver(function (muts) {
+        if (retermifying) return;
+        // ignore mutations that are purely our own term spans
+        var meaningful = muts.some(function (mu) {
+          return [].some.call(mu.addedNodes, function (nd) {
+            return !(nd.classList && nd.classList.contains('pfv2-term'));
+          });
+        });
+        if (!meaningful) return;
+        clearTimeout(timer);
+        timer = setTimeout(function () { retermify(viewName); }, 250);
+      }).observe(sec, { childList: true, subtree: true });
+    });
+  });
+
+  window.__pfv2Terms = { termify: termify, retermify: retermify };
 })();
 
 /* ── 3–6. SEARCH ANCHORS · SERVICE COPY · BACKUP · TOPBAR ──── */
@@ -38794,7 +38934,10 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
 
   // Views worth annotating: static reference content. Tool views that
   // re-render constantly are left alone.
-  var TERM_VIEWS = ['quickref', 'redflags', 'cascade', 'misroutes', 'services', 'team', 'taskcards', 'popreport', 'route-detail'];
+  var TERM_VIEWS = ['quickref', 'redflags', 'cascade', 'misroutes', 'services', 'team', 'taskcards', 'popreport', 'route-detail',
+                    'routequiz', 'walk', 'basket',
+                    'rqSession'];                      // the quiz modal overlay itself
+  var DYNAMIC_TERM_VIEWS = ['routequiz', 'walk', 'basket', 'rqSession'];
   var SKIP_TAGS = { A: 1, BUTTON: 1, SCRIPT: 1, STYLE: 1, INPUT: 1, TEXTAREA: 1, SELECT: 1, CODE: 1, PRE: 1, KBD: 1, SUMMARY: 1, H1: 1, SVG: 1, LABEL: 1 };
   var MAX_PER_TERM = 2, MAX_PER_VIEW = 70;
 
@@ -38832,7 +38975,7 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
     if (TERM_VIEWS.indexOf(viewName) === -1) return;
     buildIndex();
     if (!ciRe && !csRe) return;
-    var sec = document.getElementById('view-' + viewName);
+    var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
     if (!sec) return;
     if (viewName !== 'route-detail' && sec.dataset.pfv2Termed === '1') return;
 
@@ -38909,16 +39052,82 @@ button.pfv2-chip:hover { border-color: var(--pulse); transform: translateY(-1px)
     if (el) showTip(el); else hideTip();
   });
   document.addEventListener('scroll', hideTip, true);
+  var quizParked = false;
+  function parkQuizSession() {
+    var s = document.getElementById('rqSession');
+    if (s && s.classList.contains('active')) {
+      s.classList.remove('active');
+      s.setAttribute('aria-hidden', 'true');
+      quizParked = true;
+    }
+  }
+  function restoreQuizSession() {
+    if (!quizParked) return;
+    quizParked = false;
+    var s = document.getElementById('rqSession');
+    if (s) {
+      s.classList.add('active');
+      s.setAttribute('aria-hidden', 'false');
+    }
+  }
   document.addEventListener('click', function (e) {
     var el = e.target.closest && e.target.closest('.pfv2-term');
     if (!el) return;
     hideTip();
+    // mid-quiz: park the session (state intact), look the term up,
+    // and the Back button restores the question exactly as it was
+    if (el.closest('#rqSession')) parkQuizSession();
     var id = el.getAttribute('data-gid');
     if (window.__glossary && window.__glossary.openEntry) window.__glossary.openEntry(id);
     else if (window.showView) window.showView('glossary');
   });
+  // restore on any return to the quiz view (Back button or nav)
+  (function () {
+    function hook() {
+      if (typeof window.showView !== 'function') return;
+      var orig = window.showView;
+      window.showView = function (name) {
+        orig.apply(this, arguments);
+        if (name === 'routequiz') { try { restoreQuizSession(); } catch (e) {} }
+      };
+    }
+    hook();
+  })();
 
-  window.__pfv2Terms = { termify: termify };
+  /* practice views re-render per question — watch and re-wrap.
+     Guarded so our own wrapping never re-triggers the observer. */
+  var retermifying = false;
+  function retermify(viewName) {
+    var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
+    if (!sec) return;
+    retermifying = true;
+    try {
+      delete sec.dataset.pfv2Termed;
+      termify(viewName);
+    } catch (e) {}
+    setTimeout(function () { retermifying = false; }, 60);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    DYNAMIC_TERM_VIEWS.forEach(function (viewName) {
+      var sec = document.getElementById('view-' + viewName) || document.getElementById(viewName);
+      if (!sec) return;
+      var timer = null;
+      new MutationObserver(function (muts) {
+        if (retermifying) return;
+        // ignore mutations that are purely our own term spans
+        var meaningful = muts.some(function (mu) {
+          return [].some.call(mu.addedNodes, function (nd) {
+            return !(nd.classList && nd.classList.contains('pfv2-term'));
+          });
+        });
+        if (!meaningful) return;
+        clearTimeout(timer);
+        timer = setTimeout(function () { retermify(viewName); }, 250);
+      }).observe(sec, { childList: true, subtree: true });
+    });
+  });
+
+  window.__pfv2Terms = { termify: termify, retermify: retermify };
 })();
 
 /* ── 3–6. SEARCH ANCHORS · SERVICE COPY · BACKUP · TOPBAR ──── */
